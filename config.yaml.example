@@ -1,0 +1,22 @@
+# # 文本翻译配置
+# translator:
+#   # 百度云
+#   baidu:
+#     key: ""
+#     secret: ""
+#   # 阿里云
+#   alibaba:
+#     key: ""
+#     secret: ""
+#     region: cn-beijing
+#   # 腾讯云
+#   tecent:
+#     key: ""
+#     secret: ""
+#     region: ap-beijing
+#     project: 0
+#   # 火山引擎
+#   volcengine:
+#     key: ""
+#     secret: ""
+#     region: cn-beijing
