@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import binascii
 import hashlib
 import hmac
@@ -11,9 +9,14 @@ import shutil
 import time
 import uuid
 import yaml
+import sys
 
 import __main__
 # import folder_paths
+
+from datetime import datetime
+from functools import reduce
+
 
 VERSION = "0.0.1"
 ADDON_NAME = "zfkun"
@@ -42,15 +45,9 @@ def load_config():
         for p in c['translator']:
             printColor(f"[ComfyUI_zfkun] translator found: {p}")
             _config['translator'][p] = c['translator'][p]
-    
-    printColor(f"[ComfyUI_zfkun] translator : {_config['translator']}")
 
 
 ############ Nodes Start ############
-
-# os.environ['AUX_USE_SYMLINKS'] = str(USE_SYMLINKS)
-# os.environ['AUX_ANNOTATOR_CKPTS_PATH'] = annotator_ckpts_path
-# os.environ['AUX_ORT_PROVIDERS'] = str(",".join(ORT_PROVIDERS))
 
 def printColor(text, color='\033[92m'):
     CLEAR = '\033[0m'
@@ -133,50 +130,46 @@ def fix_language_code(platform: str, code: str, invert: bool = False):
     return code
 
 
-# def get_gmt_time(timestamp: float = None):
-#     if not timestamp:
-#         timestamp = time.time()
-#     return time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(timestamp))
-
-
-def get_utc_time(timestamp: float = None):
-    if not timestamp:
-        return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H:%M:%SZ')
-
-
-# def md5_base64(s: str):
-#     m = hashlib.md5(s.encode('utf-8')).digest()
-#     return base64.b64encode(m).decode('utf-8')
-
-
-def sha256_base64(s: str):
-    return hashlib.sha256(s.encode('utf-8')).hexdigest()
-
-
-# def create_hmac_sha1_signature(key, message):
-#     key = key.encode('utf-8')
-#     message = message.encode('utf-8')
-
-#     digester = hmac.new(key, message, hashlib.sha1)
-#     signature = digester.hexdigest()
-
-#     return signature
-
-
-def create_hmac_sha256_signature(key: str, message: str):
-    return hmac.new(key.encode('utf-8'), message.encode('utf-8'), hashlib.sha256).hexdigest()
-
-
-def create_hmac_sha256_signature_str(key: bytes, message: str):
-    return hmac.new(key, message.encode('utf-8'), hashlib.sha256).digest()
-
-
 def get_translator_config(platform: str):
     if platform not in _config['translator']:
         return None
     return _config['translator'][platform]
+
+
+def to_hex(content):
+    lst = []
+    for ch in content:
+        if sys.version_info[0] == 3:
+            hv = hex(ch).replace('0x', '')
+        else:
+            hv = hex(ord(ch)).replace('0x', '')
+        if len(hv) == 1:
+            hv = '0' + hv
+        lst.append(hv)
+    return reduce(lambda x, y: x + y, lst)
+
+
+def sha256(content):
+    # type(content) == <class 'str'>
+    if sys.version_info[0] == 3:
+        if isinstance(content, str) is True:
+            return hashlib.sha256(content.encode('utf-8')).hexdigest()
+        else:
+            return hashlib.sha256(content).hexdigest()
+    else:
+        if isinstance(content, (str, unicode)) is True:
+            return hashlib.sha256(content.encode('utf-8')).hexdigest()
+        else:
+            return hashlib.sha256(content).hexdigest()
+
+
+def hmac_sha256(key, content):
+    # type(key) == <class 'bytes'>
+    if sys.version_info[0] == 3:
+        return hmac.new(key, bytes(content, encoding='utf-8'), hashlib.sha256).digest()
+    else:
+        return hmac.new(key, bytes(content.encode('utf-8')), hashlib.sha256).digest()
+
 
 
 def text_translate(platform:str, text:str, source="auto", target="en"):
@@ -186,11 +179,13 @@ def text_translate(platform:str, text:str, source="auto", target="en"):
         return _text_translate_alibaba_v3(text, source, target)
     if platform == 'tencent':
         return _text_translate_tencent_v3(text, source, target)
+    if platform == 'volcengine':
+        return _text_translate_volcengine_v4(text, source, target)
 
     printColor(f'translate platform unsupport: {platform}')
     return (text, source, target,)
 
-# 百度翻译
+# 百度翻译 (https://fanyi-api.baidu.com/product/113)
 def _text_translate_baidu(text:str, source="auto", target="en"):
         c = get_translator_config("baidu")
         if not c:
@@ -199,9 +194,9 @@ def _text_translate_baidu(text:str, source="auto", target="en"):
         result = text
         fromCode = fix_language_code('baidu', source)
         toCode = fix_language_code('baidu', target)
-        salt = binascii.hexlify(os.urandom(16)).decode()
 
-        sign = hashlib.md5(f"{c['key']}{text}{salt}{c['secret']}".encode()).hexdigest()
+        salt = binascii.hexlify(os.urandom(16)).decode()
+        sign = hashlib.md5(f"{c['key']}{text}{salt}{c['secret']}".encode('utf-8')).hexdigest()
         path = f"/api/trans/vip/translate?appid={c['key']}&q={urllib.parse.quote(text)}&from={fromCode}&to={toCode}&salt={salt}&sign={sign}"
 
         printColor(f'baidu translate start: {fromCode} => {toCode}')
@@ -239,7 +234,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
     if not c:
         return (text, source, target,)
 
-    # secret_id = c['key'] or ""
+    secret_id = c['key'] or ""
     secret_key = c['secret'] or ""
     region = c['region'] or region
 
@@ -251,7 +246,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
     action = "TranslateGeneral"
     version = "2018-10-12"
     algorithm = "ACS3-HMAC-SHA256"
-    date = get_utc_time()
+    request_date = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
     nonce = str(uuid.uuid4())
 
     # ************* 步骤 1：拼接规范请求串 *************
@@ -266,7 +261,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
         "SourceText": text,
         "Scene": "general"
     })
-    hashed_request_payload = sha256_base64(payload)
+    hashed_request_payload = sha256(payload)
 
     signed_headers = 'host;x-acs-action;x-acs-content-sha256;x-acs-date;x-acs-signature-nonce;x-acs-version'
     canonical_request = (
@@ -275,9 +270,9 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
         f"{canonical_querystring}\n"
 
         f"host:{host}\n"
-        "x-acs-action:TranslateGeneral\n"
+        f"x-acs-action:{action}\n"
         f"x-acs-content-sha256:{hashed_request_payload}\n"
-        f"x-acs-date:{date}\n"
+        f"x-acs-date:{request_date}\n"
         f"x-acs-signature-nonce:{nonce}\n"
         f"x-acs-version:{version}\n"
         "\n"
@@ -287,18 +282,18 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
     )
 
     # ************* 步骤 2：拼接待签名字符串 *************
-    hashed_canonical_request = sha256_base64(canonical_request)
+    hashed_canonical_request = sha256(canonical_request)
     string_to_sign = (
         f"{algorithm}\n"
         f"{hashed_canonical_request}"
     )
 
     # ************* 步骤 3：计算签名 *************
-    sign = create_hmac_sha256_signature(c['secret'], string_to_sign)
+    sign = to_hex(hmac_sha256(secret_key.encode('utf-8'), string_to_sign))
 
     # ************* 步骤 4：拼接 Authorization *************
     authorization = (f"{algorithm} "
-                     f"Credential={secret_key},"
+                     f"Credential={secret_id},"
                      f"SignedHeaders={signed_headers},"
                      f"Signature={sign}")
 
@@ -309,7 +304,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
         "Content-Type": content_type,
         "x-acs-action": action,
         "x-acs-content-sha256": hashed_request_payload,
-        "x-acs-date": date,
+        "x-acs-date": request_date,
         "x-acs-signature-nonce": nonce,
         "x-acs-version": version,
     }
@@ -376,7 +371,7 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
         "Target": to_code,
         "ProjectId": c['project'] or 0,
     })
-    hashed_request_payload = sha256_base64(payload)
+    hashed_request_payload = sha256(payload)
 
     canonical_headers = "content-type:%s\nhost:%s\nx-tc-action:%s\n" % (content_type, host, action.lower())
     signed_headers = 'content-type;host;x-tc-action'.lower()
@@ -389,7 +384,7 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
 
     # ************* 步骤 2：拼接待签名字符串 *************
     credential_scope = date + "/" + service + "/" + "tc3_request"
-    hashed_canonical_request = sha256_base64(canonical_request)
+    hashed_canonical_request = sha256(canonical_request)
     string_to_sign = (
         f"{algorithm}\n"
         f"{timestamp}\n"
@@ -398,10 +393,10 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
     )
 
     # ************* 步骤 3：计算签名 *************
-    secret_date = create_hmac_sha256_signature_str(("TC3" + secret_key).encode('utf-8'), date)
-    secret_service = create_hmac_sha256_signature_str(secret_date, service)
-    secret_signing = create_hmac_sha256_signature_str(secret_service, "tc3_request")
-    sign = hmac.new(secret_signing, string_to_sign.encode("utf-8"), hashlib.sha256).hexdigest()
+    secret_date = hmac_sha256(("TC3" + secret_key).encode('utf-8'), date)
+    secret_service = hmac_sha256(secret_date, service)
+    secret_signing = hmac_sha256(secret_service, "tc3_request")
+    sign = to_hex(hmac_sha256(secret_signing, string_to_sign))
 
     # ************* 步骤 4：拼接 Authorization *************
     authorization = (algorithm + " " +
@@ -419,16 +414,6 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
     }
 
     printColor(f'tencent translate start: {from_code} => {to_code}')
-
-    # printColor(f'canonical_request: {canonical_request}')
-    # printColor(f'string_to_sign: {string_to_sign}')
-    # printColor(f'secret_date: {secret_date}')
-    # printColor(f'secret_service: {secret_service}')
-    # printColor(f'secret_signing: {secret_signing}')
-    # printColor(f'sign: {sign}')
-    # printColor(f'authorization: {authorization}')
-    # printColor(f'payload: {payload}')
-    # printColor(f'headers: {headers}')
 
     hc = http.client.HTTPSConnection(host)
     hc.set_debuglevel(2)
@@ -457,6 +442,106 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
     printColor(f'tencent translate end: {from_code} => {to_code}')
     return result, from_code, to_code
 
+
+# 火山翻译 (https://www.volcengine.com/docs/4640/65067)
+def _text_translate_volcengine_v4(text: str, source="auto", target="en", region="cn-beijing"):
+    c = get_translator_config("volcengine")
+    if not c:
+        return (text, source, target,)
+
+    secret_id = c['key'] or ""
+    secret_key = c['secret'] or ""
+    region = c['region'] or region
+
+    result = text
+    from_code = fix_language_code('volcengine', source)
+    to_code = fix_language_code('volcengine', target)
+
+    service = "translate"
+    host = "translate.volcengineapi.com"
+    action = "TranslateText"
+    version = "2020-06-01"
+    algorithm = "HMAC-SHA256"
+    timestamp = int(time.time())
+    request_date = datetime.utcfromtimestamp(timestamp).strftime("%Y%m%dT%H%M%SZ")
+
+    # ************* 步骤 1：拼接规范请求串 *************
+    http_request_method = 'POST'
+    canonical_uri = "/"
+    canonical_querystring = f'Action={action}&Version={version}'
+    content_type = "application/json"
+    payload = {"TargetLanguage": to_code, "TextList": [text]}
+    payload.update({"SourceLanguage": from_code} if from_code and from_code != "auto" else {})
+    jsoned_payload = json.dumps(payload)
+    hashed_request_payload = sha256(jsoned_payload)
+
+    canonical_headers = "content-type:%s\nhost:%s\nx-content-sha256:%s\nx-date:%s\n" % (content_type, host, hashed_request_payload, request_date)
+    signed_headers = 'content-type;host;x-content-sha256;x-date'.lower()
+    canonical_request = (f"{http_request_method}\n"
+                         f"{canonical_uri}\n"
+                         f"{canonical_querystring}\n"
+                         f"{canonical_headers}\n"
+                         f'{signed_headers}\n'
+                         f'{hashed_request_payload}')
+
+    # ************* 步骤 2：拼接待签名字符串 *************
+    credential_scope = request_date[:8] + "/" + region + "/" + service + "/" + "request"
+    hashed_canonical_request = sha256(canonical_request)
+    string_to_sign = (
+        f"{algorithm}\n"
+        f"{request_date}\n"
+        f"{credential_scope}\n"
+        f"{hashed_canonical_request}"
+    )
+
+    # ************* 步骤 3：计算签名 *************
+    date_for_sign = datetime.utcfromtimestamp(timestamp).strftime("%Y%m%d")
+    secret_date = hmac_sha256(secret_key.encode('utf-8'), date_for_sign)
+    secret_region = hmac_sha256(secret_date, region)
+    secret_service = hmac_sha256(secret_region, service)
+    secret_signing = hmac_sha256(secret_service, "request")
+    sign = to_hex(hmac_sha256(secret_signing, string_to_sign))
+
+    # ************* 步骤 4：拼接 Authorization *************
+    authorization = (algorithm + " " +
+                     "Credential=" + secret_id + "/" + credential_scope + ", " +
+                     "SignedHeaders=" + signed_headers + ", " +
+                     "Signature=" + sign)
+    headers = {
+        "Authorization": authorization,
+        "Content-Type": content_type,
+        'User-Agent': 'volc-sdk-python/v1.0.118',
+        "Host": host,
+        "X-Content-Sha256": hashed_request_payload,
+        "X-Date": request_date,
+    }
+
+    printColor(f'volcengine translate start: {from_code} => {to_code}')
+
+    hc = http.client.HTTPConnection(host)
+    # hc.set_debuglevel(2)
+    try:
+        hc.request('POST', canonical_uri + f'?{canonical_querystring}', jsoned_payload.encode('utf-8'), headers)
+
+        res = hc.getresponse()
+        body = res.read().decode("utf-8")
+
+        printColor(f'volcengine translate response: {body}')
+
+        r = json.loads(body)
+        if not r or not r['TranslationList'] or not r['TranslationList'][0] or not r['TranslationList'][0]['Translation']:
+            printColor(f'translate fail: {body}')
+        else:
+            result = str(r['TranslationList'][0]['Translation'])
+            if r['TranslationList'][0]['DetectedSourceLanguage']:
+                from_code = fix_language_code('volcengine', str(r['TranslationList'][0]['DetectedSourceLanguage']), True)
+    except Exception as e:
+        printColor(f'volcengine translate exception: {e}')
+    finally:
+        hc.close()
+
+    printColor(f'volcengine translate end: {from_code} => {to_code}')
+    return result, from_code, to_code
 
 
 ############ Translation End ############
