@@ -82,6 +82,7 @@ LANGUAGE_CODES = ["zh-cn", "zh-tw", "en", "ja", "ko", "fr", "es", "it", "de", "t
 # 正向转义修正 (`LANGUAGE_CODES` => 平台语种代号)
 _FIXED_LANGUAGE_CODES = {
     "baidu": {
+        "zh-cn": "zh",
         "zh-tw": "cht",
         "ja": "jp",
         "ko": "kor",
@@ -102,6 +103,8 @@ _FIXED_LANGUAGE_CODES = {
 # 反向转义修正 (平台语种代号 => `LANGUAGE_CODES`)
 __INVERT_FIXED_LANGUAGE_CODES = {
     "baidu": {
+        "zh": "zh-cn",
+        "cht": "zh-tw",
         "jp": "ja",
         "kor": "ko",
         "fra": "fr",
