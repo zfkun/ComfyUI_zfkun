@@ -4,7 +4,14 @@
 
 # Updates
 
+- update version to `0.0.2`
+
+- add auto converting encoding to `utf-8` for `config.yaml`
+
+- add auto install requirements
+
 - add [baidu](https://bobtranslate.com/service/translate/baidu.html), [alibaba](https://bobtranslate.com/service/translate/ali.html), [tencent](https://bobtranslate.com/service/translate/tencent.html), [volcengine](https://bobtranslate.com/service/translate/volcengine.html) platform for text translate node
+
 - update README
 
 # Installation

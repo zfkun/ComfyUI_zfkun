@@ -29,7 +29,7 @@ def install_nodes():
     checkDir(install_folder)
     addFilesToDir(js_folder, install_folder)
 
-printColor(f"start", "\033[1;35m")
+printColor(f"boot start", "\033[1;35m")
 load_config()
 install_nodes()
-printColor(f"end", "\033[1;35m")
+printColor(f"boot end", "\033[1;35m")

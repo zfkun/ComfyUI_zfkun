@@ -1,15 +1,17 @@
 import binascii
+import codecs
 import hashlib
 import hmac
 import http.client
 import json
 import urllib
 import os
+import re
+import sys
 import shutil
 import time
+import traceback
 import uuid
-import yaml
-import sys
 
 import __main__
 # import folder_paths
@@ -18,7 +20,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -30,6 +32,108 @@ COMFY_WEB_EXTENSIONS_PATH = os.path.join(COMFY_WEB_PATH, "extensions")
 _CONFIG_FILE = os.path.join(HOME_PATH, "config.yaml")
 
 _config: dict = { "translator": {} }
+_piplist: set[str] = None
+
+
+def printColor(text, color='\033[92m'):
+    CLEAR = '\033[0m'
+    print(f"[ComfyUI_zfkun] {color}{text}{CLEAR}")
+
+def printColorWarn(text):
+    printColor(text, '\033[93m')
+
+def printColorError(text):
+    printColor(text, '\033[91m')
+
+############ Check Start ############
+
+printColor(f"check start", "\033[1;35m")
+
+try:
+    import subprocess
+
+    def get_installed_packages():
+        global _piplist
+
+        if _piplist is None:
+            try:
+                result = subprocess.check_output([sys.executable, '-m', 'pip', 'list'], universal_newlines=True)
+                _piplist = set([line.split()[0].lower() for line in result.split('\n') if line.strip()])
+            except subprocess.CalledProcessError as e:
+                printColorError(f"failed to get installed packages from pip")
+
+        return _piplist
+
+
+    def is_installed(name):
+        name = name.strip()
+
+        match = re.search(r'([^<>!=]+)([<>!=]=?)', name)
+        if match:
+            name = match.group(1)
+
+        return (name in get_installed_packages(), name)
+
+
+    def is_requirements_installed(file_path):
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as f:
+                for p in f.readlines():
+                    if not is_installed(p):
+                        return False
+                        
+        return True
+
+
+    def install():
+        req_file = os.path.join(HOME_PATH, "requirements.txt")
+
+        if os.path.exists(req_file):
+            with open(req_file, 'r') as f:
+                for line in f.readlines():
+                    ok, dependency = is_installed(line)
+                    if not ok:
+                        printColorWarn(f'"{dependency}" is not installed. Trying to install.')
+                        try:
+                            subprocess.check_call([sys.executable, '-m', 'pip', 'install', dependency])
+                            printColor(f'"{dependency}" is installed')
+                        except subprocess.CalledProcessError as e:
+                            printColorError(f'"{dependency}" install fail: {e}')
+                
+                printColor('all dependency installed')
+
+    install()
+
+except Exception as e:
+    printColorError("Dependency install failed. Please install manually.", )
+    traceback.print_exc()
+
+printColor(f"check end", "\033[1;35m")
+
+
+############ Check End ############
+
+
+############ Setup Start ############
+
+import chardet
+import yaml
+
+
+def convert_to_utf8(file_path: str):
+    raw = open(file_path, 'rb').read()
+    res = chardet.detect(raw)
+    encoding = res['encoding']
+
+    if encoding != 'utf-8':
+        with codecs.open(file_path, 'r', encoding=encoding) as file:
+            content = file.read()
+        with codecs.open(file_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+
+        return encoding
+
+    return None
 
 
 def load_config():
@@ -37,21 +141,23 @@ def load_config():
 
     if not os.path.exists(_CONFIG_FILE):
         return
+    
+    origin_encoding = convert_to_utf8(_CONFIG_FILE)
+    if origin_encoding:
+        printColorWarn(f'convert "config.yaml" encoding: from {origin_encoding} to utf-8')
 
     c = yaml.load(open(_CONFIG_FILE, "r"), Loader=yaml.FullLoader)
 
     # 翻译配置
-    if c['translator'] and isinstance(c['translator'], dict):
+    if c and c['translator'] and isinstance(c['translator'], dict):
         for p in c['translator']:
-            printColor(f"[ComfyUI_zfkun] translator found: {p}")
+            printColor(f"translator found: {p}")
             _config['translator'][p] = c['translator'][p]
+
+############ Setup End ############
 
 
 ############ Nodes Start ############
-
-def printColor(text, color='\033[92m'):
-    CLEAR = '\033[0m'
-    print(f"[ComfyUI_zfkun] {color}{text}{CLEAR}")
 
 def checkDir(dir):
     if not os.path.exists(dir):
