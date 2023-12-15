@@ -63,8 +63,9 @@ support platforms:
 - [alibaba (阿里翻译)](https://bobtranslate.com/service/translate/ali.html)
 - [tencent (腾讯翻译)](https://bobtranslate.com/service/translate/tencent.html)
 - [volcengine (火山翻译)](https://bobtranslate.com/service/translate/volcengine.html)
+- [niutrans (小牛翻译)](https://bobtranslate.com/service/translate/niu.html)
 
-> 1. create `config.yaml` (copy from `config.yaml.example`)
+> 1. create `config.yaml` (copy from `config.yaml.example`, **make sure file encoding** is `utf-8`)
 > 2. update `translator` field, save
 > 3. restart `ComfyUI`
 
