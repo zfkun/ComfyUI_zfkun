@@ -20,7 +20,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -180,7 +180,7 @@ def addFilesToDir(fromDir, toDir):
 ############ Translation Start ############
 
 # 翻译平台
-TRANSLATOR_PLATFORMS = ["baidu", "alibaba", "tencent", "volcengine"]
+TRANSLATOR_PLATFORMS = ["baidu", "alibaba", "tencent", "volcengine", "niutrans"]
 
 # 语种代号表
 LANGUAGE_CODES = ["zh-cn", "zh-tw", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi"]
@@ -204,6 +204,10 @@ _FIXED_LANGUAGE_CODES = {
     "volcengine": {
         "zh-tw": "zh-Hant",
     },
+    "niutrans": {
+        "zh-cn": "zh",
+        "zh-tw": "cht",
+    },
 }
 
 # 反向转义修正 (平台语种代号 => `LANGUAGE_CODES`)
@@ -224,6 +228,10 @@ __INVERT_FIXED_LANGUAGE_CODES = {
     },
     "volcengine": {
         "zh-Hant": "zh-tw",
+    },
+    "niutrans": {
+        "zh": "zh-cn",
+        "cht": "zh-tw",
     },
 }
 
@@ -290,9 +298,12 @@ def text_translate(platform:str, text:str, source="auto", target="en"):
         return _text_translate_tencent_v3(text, source, target)
     if platform == 'volcengine':
         return _text_translate_volcengine_v4(text, source, target)
+    if platform == 'niutrans':
+        return _text_translate_niutrans(text, source, target)
 
     printColor(f'translate platform unsupport: {platform}')
     return (text, source, target,)
+
 
 # 百度翻译 (https://fanyi-api.baidu.com/product/113)
 def _text_translate_baidu(text:str, source="auto", target="en"):
@@ -630,7 +641,7 @@ def _text_translate_volcengine_v4(text: str, source="auto", target="en", region=
     hc = http.client.HTTPConnection(host)
     # hc.set_debuglevel(2)
     try:
-        hc.request('POST', canonical_uri + f'?{canonical_querystring}', jsoned_payload.encode('utf-8'), headers)
+        hc.request(http_request_method, canonical_uri + f'?{canonical_querystring}', jsoned_payload.encode('utf-8'), headers)
 
         res = hc.getresponse()
         body = res.read().decode("utf-8")
@@ -650,6 +661,61 @@ def _text_translate_volcengine_v4(text: str, source="auto", target="en", region=
         hc.close()
 
     printColor(f'volcengine translate end: {from_code} => {to_code}')
+    return result, from_code, to_code
+
+
+# 小牛翻译 (https://niutrans.com/documents/contents/trans_text)
+def _text_translate_niutrans(text: str, source="auto", target="en"):
+    c = get_translator_config("niutrans")
+    if not c:
+        return (text, source, target,)
+
+    secret_key = c['secret'] or ""
+
+    result = text
+    from_code = fix_language_code('niutrans', source)
+    to_code = fix_language_code('niutrans', target)
+
+    host = "api.niutrans.com"
+    
+    http_request_method = 'POST'
+    canonical_uri = "/NiuTransServer/translation"
+    content_type = "application/json"
+    payload = {"from": from_code, "to": to_code, "apikey": secret_key, "src_text": text}
+    jsoned_payload = json.dumps(payload)
+
+    headers = {
+        "Content-Type": content_type,
+        "Host": host,
+    }
+
+    printColor(f'niutrans translate start: {from_code} => {to_code}')
+
+    hc = http.client.HTTPConnection(host)
+    # hc.set_debuglevel(2)
+    try:
+        hc.request(http_request_method, canonical_uri, jsoned_payload.encode('utf-8'), headers)
+
+        res = hc.getresponse()
+        body = res.read().decode("utf-8")
+
+        printColor(f'niutrans translate response: {body}')
+
+        r = json.loads(body)
+        if not r or not r['tgt_text']:
+            printColor(f'translate fail: {body}')
+        else:
+            result = str(r['tgt_text'])
+            if r['from']:
+                from_code = fix_language_code('niutrans', str(r['from']), True)
+            if r['to']:
+                to_code = fix_language_code('niutrans', str(r['to']), True)
+    except Exception as e:
+        printColor(f'niutrans translate exception: {e}')
+    finally:
+        hc.close()
+
+    printColor(f'niutrans translate end: {from_code} => {to_code}')
     return result, from_code, to_code
 
 

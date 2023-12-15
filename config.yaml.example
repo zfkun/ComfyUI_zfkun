@@ -20,3 +20,6 @@
 #     key: ""
 #     secret: ""
 #     region: cn-beijing
+#   # 小牛翻译
+#   niutrans:
+#     secret: ""
