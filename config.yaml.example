@@ -1,25 +1,22 @@
-# # 文本翻译配置
-# translator:
-#   # 百度云
-#   baidu:
-#     key: ""
-#     secret: ""
-#   # 阿里云
-#   alibaba:
-#     key: ""
-#     secret: ""
-#     region: cn-beijing
-#   # 腾讯云
-#   tecent:
-#     key: ""
-#     secret: ""
-#     region: ap-beijing
-#     project: 0
-#   # 火山引擎
-#   volcengine:
-#     key: ""
-#     secret: ""
-#     region: cn-beijing
-#   # 小牛翻译
-#   niutrans:
-#     secret: ""
+# copy and rename this to `config.yaml`
+# make sure save as `utf-8` encoding
+
+translator:
+  baidu:
+    key: ""
+    secret: ""
+  alibaba:
+    key: ""
+    secret: ""
+    region: cn-beijing
+  tencent:
+    key: ""
+    secret: ""
+    region: ap-beijing
+    project: 0
+  volcengine:
+    key: ""
+    secret: ""
+    region: cn-beijing
+  niutrans:
+    secret: ""

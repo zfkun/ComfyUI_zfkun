@@ -20,7 +20,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.4"
+VERSION = "0.0.5"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -340,6 +340,7 @@ def text_translate(platform:str, text:str, source="auto", target="en"):
 def _text_translate_baidu(text:str, source="auto", target="en"):
         c = get_translator_config("baidu")
         if not c:
+            printColorError('get translator fail: baidu')
             return (text, source, target,)
         
         result = text
@@ -383,6 +384,7 @@ def _text_translate_baidu(text:str, source="auto", target="en"):
 def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn-beijing"):
     c = get_translator_config("alibaba")
     if not c:
+        printColorError('get translator fail: alibaba')
         return (text, source, target,)
 
     secret_id = c['key'] or ""
@@ -397,7 +399,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
     action = "TranslateGeneral"
     version = "2018-10-12"
     algorithm = "ACS3-HMAC-SHA256"
-    request_date = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    request_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
     nonce = str(uuid.uuid4())
 
     # ************* 步骤 1：拼接规范请求串 *************
@@ -459,6 +461,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
         "x-acs-signature-nonce": nonce,
         "x-acs-version": version,
     }
+    
 
     printColor(f'alibaba translate start: {from_code} => {to_code}')
 
@@ -493,6 +496,7 @@ def _text_translate_alibaba_v3(text: str, source="auto", target="en", region="cn
 def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap-beijing"):
     c = get_translator_config("tencent")
     if not c:
+        printColorError('get translator fail: tencent')
         return (text, source, target,)
 
     secret_id = c['key'] or ""
@@ -567,7 +571,7 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
     printColor(f'tencent translate start: {from_code} => {to_code}')
 
     hc = http.client.HTTPSConnection(host)
-    hc.set_debuglevel(2)
+    # hc.set_debuglevel(2)
     try:
         hc.request('POST', canonical_uri, payload.encode('utf-8'), headers)
 
@@ -598,6 +602,7 @@ def _text_translate_tencent_v3(text: str, source="auto", target="en", region="ap
 def _text_translate_volcengine_v4(text: str, source="auto", target="en", region="cn-beijing"):
     c = get_translator_config("volcengine")
     if not c:
+        printColorError('get translator fail: volcengine')
         return (text, source, target,)
 
     secret_id = c['key'] or ""
@@ -699,6 +704,7 @@ def _text_translate_volcengine_v4(text: str, source="auto", target="en", region=
 def _text_translate_niutrans(text: str, source="auto", target="en"):
     c = get_translator_config("niutrans")
     if not c:
+        printColorError('get translator fail: niutrans')
         return (text, source, target,)
 
     secret_key = c['secret'] or ""

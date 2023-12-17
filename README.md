@@ -6,6 +6,12 @@
 
 ## 2023-12-17
 
+- update version to `0.0.5`
+- fix translation error for `alibaba` platform
+- fix translator name typo for `tencent` platform
+
+## 2023-12-17
+
 - update version to `0.0.4`
 - update README
 - add `Load Image Path` node
