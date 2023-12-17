@@ -4,18 +4,21 @@ from .utils import VERSION, ADDON_NAME, HOME_PATH, COMFY_WEB_EXTENSIONS_PATH, pr
 from .nodes.preview_text import ZFPreviewText
 from .nodes.preview_text_multiline import ZFPreviewTextMultiline
 from .nodes.text_translation import ZFTextTranslation
+from .nodes.load_image_path import ZFLoadImagePath
 
 
 NODE_CLASS_MAPPINGS = {
     "ZFPreviewText": ZFPreviewText,
     "ZFPreviewTextMultiline": ZFPreviewTextMultiline,
     "ZFTextTranslation": ZFTextTranslation,
+    "ZFLoadImagePath": ZFLoadImagePath,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ZFPreviewText": "Preview Text 🍕🅩🅕",
     "ZFPreviewTextMultiline": "Preview Text (Multiline) 🍕🅩🅕",
     "ZFTextTranslation": "Text Translation 🍕🅩🅕",
+    "ZFLoadImagePath": "Load Image Path 🍕🅩🅕",
 }
 
 __version__ = VERSION

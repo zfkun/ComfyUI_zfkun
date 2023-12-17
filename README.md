@@ -4,6 +4,12 @@
 
 # ChangeLog
 
+## 2023-12-17
+
+- update version to `0.0.4`
+
+- add ZFLoadImagePath node platform for text translate node
+
 ## 2023-12-16
 
 - update version to `0.0.3`
@@ -45,6 +51,53 @@ pip install -r requirements.txt
 # restart ComfyUI
 ```
 
+## Server
+
+### Camera Capture Simple
+
+a simple camera capture server.
+
+mainly used with `Load Image Path` and `LCM` for **real-time virtual live** workflow
+
+#### feature
+
+- custom capture source (0, 1, 2 ...)
+- custom output directory
+- custom output filename (`*` will be replaced by `%Y%m%d_%H%M%S`)
+- custom
+
+#### useage
+
+> the paths to `ComfyUI` and `python` need to be modified to suit for you.
+
+> in my case, `ComfyUI` in `./ComfyUI` and `python` in `./ComfyUI/venv` with **venv**
+
+basic
+
+```shell
+# enter ComfyUI's home
+cd ./ComfyUI
+
+# active virtual environment for python
+source ./venv/bin/activate
+
+# enter server's home
+cd ./custom_nodes/ComfyUI_zfkun/server
+
+# start server with custom output directory
+python camera_capture_simple.py -o ~/ai/sd/output_webcam
+```
+
+<img src="./usage_camera_capture_simple_server_1.png" width="600" />
+
+advanced
+
+```shell
+python camera_capture_simple.py -h
+```
+
+<img src="./usage_camera_capture_simple_server_2.png" width="600" />
+
 ## Nodes
 
 ### Preview Text
@@ -69,6 +122,13 @@ support platforms:
 > 2. update `translator` field, save
 > 3. restart `ComfyUI`
 
+### Load Image Path
+
+- support `path` (**relative**、**absolute**、**~**、**~user**))
+- support `url` (**http**、**https**)
+- support `RGBA` for output image
+- support `default image` for input
+
 # Examples
 
 ## Preview Text
@@ -82,3 +142,11 @@ support platforms:
 ## Text Translation
 
 ![](./example_text_translate.png)
+
+## Load Image Path
+
+![](./example_load_image_path.png)
+
+## Camera Capture Simple Server
+
+![](./example_camera_capture_simple_server.png)

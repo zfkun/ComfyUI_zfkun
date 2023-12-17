@@ -20,7 +20,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.3"
+VERSION = "0.0.4"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -159,6 +159,10 @@ def load_config():
 
 ############ Nodes Start ############
 
+from PIL import Image
+import numpy as np
+import torch
+
 def checkDir(dir):
     if not os.path.exists(dir):
         os.mkdir(dir)
@@ -173,6 +177,33 @@ def addFilesToDir(fromDir, toDir):
 
         printColor(f"node install: {f}")
         shutil.copy(from_file, to_file)
+
+# Tensor to PIL
+def tensor2pil(image):
+    return Image.fromarray(np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8))
+    
+# PIL to Tensor
+def pil2tensor(image):
+    return torch.from_numpy(np.array(image).astype(np.float32) / 255.0).unsqueeze(0)
+
+# PIL Hex
+def pil2hex(image):
+    return hashlib.sha256(np.array(tensor2pil(image)).astype(np.uint16).tobytes()).hexdigest()
+
+# PIL to Mask
+def pil2mask(image):
+    image_np = np.array(image.convert("L")).astype(np.float32) / 255.0
+    mask = torch.from_numpy(image_np)
+    return 1.0 - mask
+
+# Mask to PIL
+def mask2pil(mask):
+    if mask.ndim > 2:
+        mask = mask.squeeze(0)
+    mask_np = mask.cpu().numpy().astype('uint8')
+    mask_pil = Image.fromarray(mask_np, mode="L")
+    return mask_pil
+
 
 ############ Nodes Start ############
 
