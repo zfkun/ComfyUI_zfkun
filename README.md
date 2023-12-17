@@ -7,8 +7,9 @@
 ## 2023-12-17
 
 - update version to `0.0.4`
-
-- add ZFLoadImagePath node platform for text translate node
+- update README
+- add `Load Image Path` node
+- add `Camera Capture Simple` server
 
 ## 2023-12-16
 
