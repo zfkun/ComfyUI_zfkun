@@ -6,14 +6,9 @@ from urllib import request
 import torch
 from PIL import Image
 
-import folder_paths as comfy_paths
-
 from ..utils import printColorError, tensor2pil, pil2tensor, pil2mask
 
 class ZFLoadImagePath:
-
-    def __init__(self):
-        self.input_dir = comfy_paths.input_directory
 
     @classmethod
     def INPUT_TYPES(cls):

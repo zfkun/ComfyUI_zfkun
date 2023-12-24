@@ -1,8 +1,10 @@
+import base64
 import binascii
 import codecs
 import hashlib
 import hmac
 import http.client
+import io
 import json
 import urllib
 import os
@@ -20,7 +22,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.5"
+VERSION = "0.0.6"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -203,6 +205,30 @@ def mask2pil(mask):
     mask_np = mask.cpu().numpy().astype('uint8')
     mask_pil = Image.fromarray(mask_np, mode="L")
     return mask_pil
+
+def base64_to_bytes(b64: str):
+    if 'base64,' in b64:
+        b64 = b64.split('base64,')[-1]
+    if len(b64) % 4 == 0:
+        try:
+            bs = base64.b64decode(b64)
+            return bs
+        except Exception as e:
+            # printColorError(f'base64 decode fail: {e}')
+            pass
+    return None
+
+# Image Base64 to PIL
+def base642pil(b64: str):
+    bs = base64_to_bytes(b64)
+    if bs is not None:
+        try:
+            bs = Image.open(io.BytesIO(bs))
+            return bs
+        except Exception as e:
+            # printColorError(f'base64 to pil fail: {e}')
+            pass
+    return None
 
 
 ############ Nodes Start ############

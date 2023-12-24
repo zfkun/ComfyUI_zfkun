@@ -4,6 +4,11 @@
 
 # ChangeLog
 
+## 2023-12-24
+
+- update version to `0.0.6`
+- add `Share Screen` node
+
 ## 2023-12-17
 
 - update version to `0.0.5`
@@ -136,6 +141,15 @@ support platforms:
 - support `RGBA` for output image
 - support `default image` for input
 
+### Share Screen
+
+- support window、tab、screen share
+- support multiple share node at the same time
+
+TODO:
+
+- custom area
+
 # Examples
 
 ## Preview Text
@@ -157,3 +171,7 @@ support platforms:
 ## Camera Capture Simple Server
 
 ![](./example_camera_capture_simple_server.png)
+
+## Share Screen
+
+![](./example_share_screen.png)

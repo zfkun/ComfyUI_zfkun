@@ -5,6 +5,7 @@ from .nodes.preview_text import ZFPreviewText
 from .nodes.preview_text_multiline import ZFPreviewTextMultiline
 from .nodes.text_translation import ZFTextTranslation
 from .nodes.load_image_path import ZFLoadImagePath
+from .nodes.share_screen import ZFShareScreen
 
 
 NODE_CLASS_MAPPINGS = {
@@ -12,6 +13,7 @@ NODE_CLASS_MAPPINGS = {
     "ZFPreviewTextMultiline": ZFPreviewTextMultiline,
     "ZFTextTranslation": ZFTextTranslation,
     "ZFLoadImagePath": ZFLoadImagePath,
+    "ZFShareScreen": ZFShareScreen,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -19,6 +21,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ZFPreviewTextMultiline": "Preview Text (Multiline) 🍕🅩🅕",
     "ZFTextTranslation": "Text Translation 🍕🅩🅕",
     "ZFLoadImagePath": "Load Image Path 🍕🅩🅕",
+    "ZFShareScreen": "Share Screen 🍕🅩🅕",
 }
 
 __version__ = VERSION
