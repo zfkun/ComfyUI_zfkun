@@ -160,3 +160,7 @@ cython_debug/
 #.idea/
 
 config.yaml
+
+server/c/*/build/
+server/c/*/tmp/
+
