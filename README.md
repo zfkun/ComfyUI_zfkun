@@ -4,6 +4,10 @@
 
 # ChangeLog
 
+## 2023-12-27
+
+- add `Window Capture Simple` Server (WIP)
+
 ## 2023-12-24
 
 - update version to `0.0.6`
@@ -141,7 +145,7 @@ support platforms:
 - support `RGBA` for output image
 - support `default image` for input
 
-### Share Screen
+### Share Screen (WIP)
 
 - support window、tab、screen share
 - support multiple share node at the same time
@@ -172,6 +176,10 @@ TODO:
 
 ![](./example_camera_capture_simple_server.png)
 
-## Share Screen
+## Window Capture Simple Server (WIP)
+
+![](./example_window_capture_simple_server_1.png)
+
+## Share Screen (WIP)
 
 ![](./example_share_screen.png)
