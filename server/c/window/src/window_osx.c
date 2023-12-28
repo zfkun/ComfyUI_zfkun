@@ -125,3 +125,62 @@ bool get_window_screenshot(long id, float rect[4], const char *filename)
 
     return ok;
 }
+
+bool get_window_screenshots(long *ids, int count, float rect[4], const char *filename)
+{
+    bool ok = false;
+
+    CGRect bounds;
+
+    if (rect[2] == 0 && rect[3] == 0)
+    {
+        bounds = CGRectNull;
+    }
+    else
+    {
+        bounds = CGRectMake((CGFloat)rect[0], (CGFloat)rect[1], (CGFloat)rect[2], (CGFloat)rect[3]);
+    }
+
+    CFArrayRef windowArray = CFArrayCreate(kCFAllocatorDefault, (const void **)ids, count, NULL);
+    if (windowArray == NULL)
+    {
+        return false;
+    }
+
+    CGImageRef screenshot = CGWindowListCreateImageFromArray(bounds, windowArray, kCGWindowImageBoundsIgnoreFraming);
+    if (screenshot == NULL)
+    {
+        CFRelease(windowArray);
+        return false;
+    }
+
+    CFStringRef strRef = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
+    CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, strRef, kCFURLPOSIXPathStyle, false);
+    CFRelease(strRef);
+    if (url == NULL)
+    {
+        CGImageRelease(screenshot);
+        CFRelease(windowArray);
+        return false;
+    }
+
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    if (destination == NULL)
+    {
+        CFRelease(url);
+        CGImageRelease(screenshot);
+        CFRelease(windowArray);
+        return false;
+    }
+    CFRelease(url);
+
+    CGImageDestinationAddImage(destination, screenshot, NULL);
+    ok = CGImageDestinationFinalize(destination);
+    CFRelease(destination);
+
+    CGImageRelease(screenshot);
+    CFRelease(windowArray);
+
+    return ok;
+}
+

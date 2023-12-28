@@ -9,7 +9,7 @@ from enum import IntFlag
 import tkinter as tk
 from PIL import Image, ImageTk
 
-
+# 路径定义
 _C_HOME_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'c')
 _C_LIBWINDOW_HOME_PATH = os.path.join(_C_HOME_PATH, 'window')
 _C_LIBWINDOW_TMP_PATH = os.path.join(_C_LIBWINDOW_HOME_PATH, 'tmp')
@@ -35,7 +35,7 @@ if not os.path.exists(_LIBWINDOW_DLL_FILE):
 # 加载自定义链接库
 lib = ctypes.cdll.LoadLibrary(_LIBWINDOW_DLL_FILE)
 
-
+# C代码返回的窗口信息结构
 class WindowInfo(ctypes.Structure):
     _fields_ = [
         ("id", ctypes.c_long),
@@ -48,13 +48,20 @@ class WindowInfo(ctypes.Structure):
         ("layer", ctypes.c_long),
     ]
 
+# 获取窗口列表信息
 get_window_list = lib.get_window_list
 get_window_list.argtypes = [ctypes.POINTER(WindowInfo), ctypes.c_uint, ctypes.c_uint, ctypes.c_long, ctypes.c_int]
 get_window_list.restype = ctypes.c_int
 
+# 单窗口截图
 get_window_screenshot = lib.get_window_screenshot
 get_window_screenshot.argtypes = [ctypes.c_long, ctypes.c_float * 4, ctypes.c_char_p]
 get_window_screenshot.restype = ctypes.c_bool
+
+# 多窗口合并截图
+get_window_screenshots = lib.get_window_screenshots
+get_window_screenshots.argtypes = [ctypes.POINTER(ctypes.c_long), ctypes.c_int, ctypes.c_float * 4, ctypes.c_char_p]
+get_window_screenshots.restype = ctypes.c_int
 
 
 # CGWindowListOption 映射
@@ -198,9 +205,6 @@ def main():
 #     for line in output.decode("utf-8").split("\n"):
 #         if line:
 #             print(line)
-    
-    if not os.path.exists(_C_LIBWINDOW_TMP_PATH):
-        os.path.mkdir(_C_LIBWINDOW_TMP_PATH)
 
     # 窗口选项
     option = CGWindowListOption.kCGWindowListOptionOnScreenOnly
@@ -220,11 +224,33 @@ def main():
         print(f"- rect: {windows[i].rect[0]}, {windows[i].rect[1]}, {windows[i].rect[2]}, {windows[i].rect[3]}")
         print(f"- pid: {windows[i].pid}")
         print(f'- ownerName: {windows[i].ownerName.decode("utf-8")}',)
-        if (get_window_screenshot(windows[i].id, windows[i].rect, os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_{i:02}.png").encode("utf-8"))):
-            print(f"截图成功")
         print(f"-----------------------------------")
 
     
+    if not os.path.exists(_C_LIBWINDOW_TMP_PATH):
+        os.path.mkdir(_C_LIBWINDOW_TMP_PATH)
+
+    # 单窗口 独立截图
+    for i in range(total):
+        if (get_window_screenshot(windows[i].id, windows[i].rect, os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_{i:02}.png").encode("utf-8"))):
+            print(f"窗口[{i}]: 截图成功")
+        else:
+            print(f"窗口[{i}]: 截图失败")
+
+
+
+    # 多窗口 合并截图
+    ids = [w.id for w in windows]
+    c_ids = (ctypes.c_long * len(ids))(*ids)
+    bounds = [0, 0, 0, 0] # 等价于 CGRectNull
+    # bounds = [0, 0, sys.float_info.max, sys.float_info.max] # 等价于 CGRectNull
+    # bounds = [0, 0, 512, 512] # 自定义区域
+    c_bounds = (ctypes.c_float * 4)(*bounds)
+    if (get_window_screenshots(c_ids, total, c_bounds, os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_all.png").encode("utf-8"))):
+        print(f"多窗口合并: 截图成功 {bounds}")
+    else:
+        print(f"多窗口合并: 截图失败 {bounds}")
+
     # 可视化交互展示窗口查询结果
     root = tk.Tk()
     root.geometry("800x600")

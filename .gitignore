@@ -163,4 +163,8 @@ config.yaml
 
 server/c/*/build/
 server/c/*/tmp/
+server/c/*/.idea/
+server/c/*/cmake-build-*/
+
+
 

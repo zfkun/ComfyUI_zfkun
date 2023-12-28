@@ -27,4 +27,6 @@ int get_window_list(WindowInfo *list, unsigned int option, unsigned int relative
 
 bool get_window_screenshot(long id, float rect[4], const char *filename);
 
+bool get_window_screenshots(long *ids, int count, float rect[4], const char *filename);
+
 #endif // WINDOW_OSX_H_
