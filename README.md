@@ -4,6 +4,12 @@
 
 # ChangeLog
 
+## 2024-01-06
+
+- update version to `0.0.7`
+- add `Clip Area` support for `Share Screen` node
+- add `Refresh Duration` support for `Share Screen` node
+
 ## 2023-12-27
 
 - add `Window Capture Simple` Server (WIP)
@@ -80,7 +86,6 @@ mainly used with `Load Image Path` and `LCM` for **real-time virtual live** work
 - custom capture source (0, 1, 2 ...)
 - custom output directory
 - custom output filename (`*` will be replaced by `%Y%m%d_%H%M%S`)
-- custom
 
 #### useage
 
@@ -145,14 +150,14 @@ support platforms:
 - support `RGBA` for output image
 - support `default image` for input
 
-### Share Screen (WIP)
+### Share Screen
 
 - support window、tab、screen share
 - support multiple share node at the same time
-
-TODO:
-
-- custom area
+- support custom clip area
+- support custom refresh duration
+- support default image (`RGBA` support)
+- support weight and prompt
 
 # Examples
 
@@ -172,6 +177,10 @@ TODO:
 
 ![](./example_load_image_path.png)
 
+## Share Screen
+
+![](./example_share_screen.png)
+
 ## Camera Capture Simple Server
 
 ![](./example_camera_capture_simple_server.png)
@@ -179,7 +188,3 @@ TODO:
 ## Window Capture Simple Server (WIP)
 
 ![](./example_window_capture_simple_server_1.png)
-
-## Share Screen (WIP)
-
-![](./example_share_screen.png)
