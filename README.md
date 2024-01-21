@@ -4,6 +4,12 @@
 
 # ChangeLog
 
+## 2024-01-21
+
+- update version to `0.0.8`
+- add error tips for `Share Screen` node
+- Optimize some logic for `Share Screen` node
+
 ## 2024-01-06
 
 - update version to `0.0.7`

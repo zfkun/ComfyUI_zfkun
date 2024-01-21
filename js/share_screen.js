@@ -41,6 +41,11 @@ const runtime = {
   liveTimer: 0,
   liveFrame: "",
   startQueue: async function (id, widget) {
+    if (!this.screen[id]) {
+      alert("Please start share screen first\n请先启动共享屏幕");
+      return Promise.resolve(false);
+    }
+
     if (this.live > 0) {
       console.info("[zfkun 🍕🅩🅕] other node is living: ", id);
       return Promise.resolve(false);
@@ -94,26 +99,39 @@ const runtime = {
 
   startShare: function (id, video) {
     return new Promise((resolve) => {
-      navigator.mediaDevices
-        .getDisplayMedia({ video: true })
-        .then((stream) => {
-          video.srcObject = stream;
+      if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices
+          .getDisplayMedia({ video: true })
+          .then((stream) => {
+            video.srcObject = stream;
 
-          if (!this.screen[id]) this.screen[id] = {};
-          this.screen[id].stream = stream;
-          this.screen[id].video = video;
-          this.screen[id].running = true;
+            if (!this.screen[id]) this.screen[id] = {};
+            this.screen[id].stream = stream;
+            this.screen[id].video = video;
+            this.screen[id].running = true;
 
-          stream.addEventListener("inactive", () => {
-            runtime.stopShare(id);
+            stream.addEventListener("inactive", () => {
+              runtime.stopShare(id);
+            });
+
+            resolve(true);
+          })
+          .catch((e) => {
+            console.info("[zfkun 🍕🅩🅕] get display media fail: ", id, e);
+            resolve(false);
+            if (e.message === "Permission denied by system") {
+              alert(
+                "Please make sure your browser has the permission for `Screen Recording`\n请确保您的浏览器具有“屏幕录制”权限"
+              );
+            } else {
+              alert(e.message);
+            }
           });
-
-          resolve(true);
-        })
-        .catch((e) => {
-          console.info("[zfkun 🍕🅩🅕] get display media fail: ", id, e);
-          resolve(false);
-        });
+      } else {
+        console.info("[zfkun 🍕🅩🅕] get display media not support: ", id);
+        alert("Error access screen content: your browser not support");
+        resolve(false);
+      }
     });
   },
   stopShare: function (id) {
@@ -300,6 +318,11 @@ const runtime = {
     return res;
   },
   startClipArea: function (id, video) {
+    if (!this.screen[id]) {
+      alert("Please start share screen first\n请先启动共享屏幕");
+      return;
+    }
+
     if (!this.ssa.canvas) {
       this.ssa.canvas = document.createElement("canvas");
       Object.assign(this.ssa.canvas.style, {
@@ -596,7 +619,9 @@ app.registerExtension({
               if (ok) this.label = "Start Queue";
             });
           } else {
-            runtime.startQueue(node.id, this);
+            runtime.startQueue(node.id, this).then((ok) => {
+              if (ok) this.label = "Stop Queue";
+            });
           }
         },
         {
