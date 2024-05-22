@@ -1,0 +1,15 @@
+[project]
+name = "comfyui_zfkun"
+description = "A collection of nodes for common tools, including text preview, text translation (multi-platform, multi-language), image loader, webcamera capture."
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["chardet", "pyyaml", "torch", "numpy", "Pillow"]
+
+[project.urls]
+Repository = "https://github.com/zfkun/ComfyUI_zfkun"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI_zfkun"
+Icon = ""
