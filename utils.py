@@ -240,12 +240,11 @@ def base642pil(b64: str):
 TRANSLATOR_PLATFORMS = ["baidu", "alibaba", "tencent", "volcengine", "niutrans"]
 
 # 语种代号表
-LANGUAGE_CODES = ["zh-cn", "zh-tw", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi"]
+LANGUAGE_CODES = ["zh", "zh-tw", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi"]
 
 # 正向转义修正 (`LANGUAGE_CODES` => 平台语种代号)
 _FIXED_LANGUAGE_CODES = {
     "baidu": {
-        "zh-cn": "zh",
         "zh-tw": "cht",
         "ja": "jp",
         "ko": "kor",
@@ -262,7 +261,6 @@ _FIXED_LANGUAGE_CODES = {
         "zh-tw": "zh-Hant",
     },
     "niutrans": {
-        "zh-cn": "zh",
         "zh-tw": "cht",
     },
 }
@@ -270,7 +268,6 @@ _FIXED_LANGUAGE_CODES = {
 # 反向转义修正 (平台语种代号 => `LANGUAGE_CODES`)
 __INVERT_FIXED_LANGUAGE_CODES = {
     "baidu": {
-        "zh": "zh-cn",
         "cht": "zh-tw",
         "jp": "ja",
         "kor": "ko",
@@ -287,7 +284,6 @@ __INVERT_FIXED_LANGUAGE_CODES = {
         "zh-Hant": "zh-tw",
     },
     "niutrans": {
-        "zh": "zh-cn",
         "cht": "zh-tw",
     },
 }
