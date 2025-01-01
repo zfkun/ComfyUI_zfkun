@@ -4,6 +4,12 @@
 
 # ChangeLog
 
+## 2025-01-01
+
+- update version to `0.0.9`
+- fix language code of `Simplified Chinese` for `Text Translation` node
+- `Comfy Registry` support
+
 ## 2024-01-21
 
 - update version to `0.0.8`
