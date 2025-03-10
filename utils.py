@@ -22,7 +22,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.8"
+VERSION = "0.0.10"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
