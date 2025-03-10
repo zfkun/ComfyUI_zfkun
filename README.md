@@ -6,6 +6,9 @@
 
 ## 2025-03-10
 
+- update version to `0.0.11`
+- Fix the script failure problem caused by changes in the logic related to `WEB_DIRECTORY`.
+
 - update version to `0.0.10`
 - fix detection logic for requirement package. See #6
 - fix preview video position for `Share Screen` node

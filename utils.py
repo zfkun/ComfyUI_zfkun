@@ -10,7 +10,6 @@ import urllib
 import os
 import re
 import sys
-import shutil
 import time
 import traceback
 import uuid
@@ -22,14 +21,11 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.10"
+VERSION = "0.0.11"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
-
 COMFY_PATH = os.path.dirname(__main__.__file__)
-COMFY_WEB_PATH = os.path.join(COMFY_PATH, "web")
-COMFY_WEB_EXTENSIONS_PATH = os.path.join(COMFY_WEB_PATH, "extensions")
 
 _CONFIG_FILE = os.path.join(HOME_PATH, "config.yaml")
 
@@ -164,21 +160,6 @@ def load_config():
 from PIL import Image
 import numpy as np
 import torch
-
-def checkDir(dir):
-    if not os.path.exists(dir):
-        os.mkdir(dir)
-
-def addFilesToDir(fromDir, toDir):
-    for f in os.listdir(fromDir):
-        from_file = os.path.join(fromDir, f)
-        to_file = os.path.join(toDir, f)
-
-        if os.path.exists(to_file):
-            os.remove(to_file)
-
-        printColor(f"node install: {f}")
-        shutil.copy(from_file, to_file)
 
 # Tensor to PIL
 def tensor2pil(image):
