@@ -3,7 +3,7 @@ name = "comfyui_zfkun"
 description = "A collection of nodes for common tools, including text preview, text translation (multi-platform, multi-language), image loader, webcamera capture."
 version = "0.0.9"
 license = { file = "LICENSE" }
-dependencies = ["chardet", "pyyaml", "torch", "numpy", "Pillow"]
+dependencies = ["chardet", "pyyaml", "torch", "numpy", "pillow"]
 
 [project.urls]
 Repository = "https://github.com/zfkun/ComfyUI_zfkun"

@@ -2,4 +2,4 @@ chardet
 pyyaml
 torch
 numpy
-Pillow
+pillow

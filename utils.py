@@ -74,7 +74,7 @@ try:
         if match:
             name = match.group(1)
 
-        return (name in get_installed_packages(), name)
+        return (name.lower() in get_installed_packages(), name)
 
 
     def is_requirements_installed(file_path):
