@@ -636,13 +636,14 @@ app.registerExtension({
         value: "",
         draw: function (ctx, node, widget_width, y, widget_height) {
           // const node_height = node.size[1];
-          const ty = runtime.computePreviewY(node, [this.name]);
+          const ty = runtime.computePreviewY(node, [this.name]) + 1 * (app?.bodyTop?.scrollHeight || 0);
+          const tx = 1 * (app?.bodyLeft?.scrollWidth || 0);
 
           const r = ctx.canvas.getBoundingClientRect();
           const transform = new DOMMatrix()
             .scaleSelf(r.width / ctx.canvas.width, r.height / ctx.canvas.height)
             .multiplySelf(ctx.getTransform())
-            .translateSelf(NODE_WIDGET_MARGIN, ty + 2);
+            .translateSelf(tx + NODE_WIDGET_MARGIN, ty + 2);
 
           Object.assign(this.parentEl.style, {
             transformOrigin: "0 0",
