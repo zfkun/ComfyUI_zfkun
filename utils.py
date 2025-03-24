@@ -21,7 +21,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.11"
+VERSION = "0.0.12"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -218,10 +218,32 @@ def base642pil(b64: str):
 ############ Translation Start ############
 
 # 翻译平台
-TRANSLATOR_PLATFORMS = ["baidu", "alibaba", "tencent", "volcengine", "niutrans"]
+TRANSLATOR_PLATFORMS = ["baidu", "alibaba", "tencent", "volcengine", "niutrans", "bigmodel", "siliconflow"]
 
 # 语种代号表
 LANGUAGE_CODES = ["zh", "zh-tw", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi"]
+
+# 语种名称表
+LANGUAGE_NAMES = {
+    "zh": "简体中文",
+    "zh-tw": "繁體中文",
+    "en": "英语",
+    "ja": "日语",
+    "ko": "韩语",
+    "fr": "法语",
+    "es": "西班牙语",
+    "it": "意大利语",
+    "de": "德语",
+    "tr": "土耳其语",
+    "ru": "俄语",
+    "pt": "葡萄牙语",
+    "vi": "越南语",
+    "id": "印尼语",
+    "th": "泰语",
+    "ms": "马来语",
+    "ar": "阿拉伯语",
+    "hi": "印地语",
+}
 
 # 正向转义修正 (`LANGUAGE_CODES` => 平台语种代号)
 _FIXED_LANGUAGE_CODES = {
@@ -270,6 +292,28 @@ __INVERT_FIXED_LANGUAGE_CODES = {
 }
 
 
+SYSTEM_PROMTS = {
+    "default": f"""您是一位精通「源文本语言」与「目标语言」文化和语言的翻译专家。""",
+}
+USER_PROMTS = {
+    "default": f"""源本文 
+```
+%s
+``` 
+## 翻译要求:
+1.忠实于"源文本"，确保每个句子都得到准确且流畅的翻译。
+2.大额数字的翻译需准确无误，符合简体中文的表达习惯。
+
+##任务:
+1.仔细研究并深入理解"源文本"的内容、上下文、语境、情感以及和目标语言的文化细微差异。
+2.根据「翻译要求」将"源文本"准确翻译为%s。
+3.确保翻译对目标受众来说准确、自然、流畅，必要时可以根据需要调整表达方式以符合文化和语言习惯。
+
+注意:不要输出任何额外的内容，只能输出翻译内容。这一点非常关键。
+"""
+}
+
+
 def fix_language_code(platform: str, code: str, invert: bool = False):
     if invert:
         if platform in __INVERT_FIXED_LANGUAGE_CODES and code in __INVERT_FIXED_LANGUAGE_CODES[platform]:
@@ -281,11 +325,20 @@ def fix_language_code(platform: str, code: str, invert: bool = False):
     return code
 
 
+def fix_language_name(code: str):
+    return LANGUAGE_NAMES.get(code, LANGUAGE_NAMES['en'])
+
+
 def get_translator_config(platform: str):
     if platform not in _config['translator']:
         return None
     return _config['translator'][platform]
 
+def get_translator_llm_promt(platform: str, text: str, name: str):
+  return [
+      {"role": "system", "content": SYSTEM_PROMTS.get(platform, SYSTEM_PROMTS['default'])},
+      {"role": "user", "content": USER_PROMTS.get(platform, USER_PROMTS['default']) % (text, name)}
+  ]
 
 def to_hex(content):
     lst = []
@@ -334,6 +387,10 @@ def text_translate(platform:str, text:str, source="auto", target="en"):
         return _text_translate_volcengine_v4(text, source, target)
     if platform == 'niutrans':
         return _text_translate_niutrans(text, source, target)
+    if platform == 'bigmodel':
+        return _text_translate_bigmodel(text, source, target)
+    if platform == 'siliconflow':
+        return _text_translate_siliconflow(text, source, target)
 
     printColor(f'translate platform unsupport: {platform}')
     return (text, source, target,)
@@ -756,6 +813,115 @@ def _text_translate_niutrans(text: str, source="auto", target="en"):
         hc.close()
 
     printColor(f'niutrans translate end: {from_code} => {to_code}')
+    return result, from_code, to_code
+
+# 智谱GLM (https://bigmodel.cn/dev/api/normal-model/glm-4)
+def _text_translate_bigmodel(text: str, source="auto", target="en"):
+    c = get_translator_config("bigmodel")
+    if not c:
+        printColorError('get translator fail: bigmodel')
+        return (text, source, target,)
+
+    secret_key = c['secret'] or ""
+    model = c['model'] or "glm-4-flash"
+
+    result = text
+    from_code = fix_language_code('bigmodel', source)
+    to_code = fix_language_code('bigmodel', target)
+    messages = get_translator_llm_promt("bigmodel", text, fix_language_name(to_code))
+
+    host = "open.bigmodel.cn"
+    
+    http_request_method = 'POST'
+    canonical_uri = "/api/paas/v4/chat/completions"
+    content_type = "application/json"
+    payload = {"model": model, "messages": messages, "do_sample": False, "stream": False }
+    jsoned_payload = json.dumps(payload)
+
+    headers = {
+        "Authorization": "Bearer " + secret_key,
+        "Content-Type": content_type,
+        "Host": host,
+    }
+
+    printColor(f'bigmodel translate start: {from_code} => {to_code}')
+
+    hc = http.client.HTTPConnection(host)
+    # hc.set_debuglevel(2)
+    try:
+        hc.request(http_request_method, canonical_uri, jsoned_payload.encode('utf-8'), headers)
+
+        res = hc.getresponse()
+        body = res.read().decode("utf-8")
+
+        printColor(f'bigmodel translate response: {body}')
+
+        r = json.loads(body)
+        if not r or not r['choices']:
+            printColor(f'translate fail: {body}')
+        else:
+            result = str(r['choices'][0]['message']['content'])
+    except Exception as e:
+        printColor(f'bigmodel translate exception: {e}')
+    finally:
+        hc.close()
+
+    printColor(f'bigmodel translate end: {from_code} => {to_code}')
+    return result, from_code, to_code
+
+
+# 硅基流动 (https://docs.siliconflow.cn/cn/api-reference/chat-completions/chat-completions)
+def _text_translate_siliconflow(text: str, source="auto", target="en"):
+    c = get_translator_config("siliconflow")
+    if not c:
+        printColorError('get translator fail: siliconflow')
+        return (text, source, target,)
+
+    secret_key = c['secret'] or ""
+    model = c['model'] or "Qwen/Qwen2.5-7B-Instruct"
+
+    result = text
+    from_code = fix_language_code('siliconflow', source)
+    to_code = fix_language_code('siliconflow', target)
+    messages = get_translator_llm_promt("siliconflow", text, fix_language_name(to_code))
+
+    host = "api.siliconflow.cn"
+    
+    http_request_method = 'POST'
+    canonical_uri = "/v1/chat/completions"
+    content_type = "application/json"
+    payload = {"model": model, "messages": messages, "stream": False, "n": 1 }
+    jsoned_payload = json.dumps(payload)
+
+    headers = {
+        "Authorization": "Bearer " + secret_key,
+        "Content-Type": content_type,
+        "Host": host,
+    }
+
+    printColor(f'siliconflow translate start: {from_code} => {to_code}')
+
+    hc = http.client.HTTPConnection(host)
+    # hc.set_debuglevel(2)
+    try:
+        hc.request(http_request_method, canonical_uri, jsoned_payload.encode('utf-8'), headers)
+
+        res = hc.getresponse()
+        body = res.read().decode("utf-8")
+
+        printColor(f'siliconflow translate response: {body}')
+
+        r = json.loads(body)
+        if not r or not r['choices']:
+            printColor(f'translate fail: {body}')
+        else:
+            result = str(r['choices'][0]['message']['content'])
+    except Exception as e:
+        printColor(f'siliconflow translate exception: {e}')
+    finally:
+        hc.close()
+
+    printColor(f'siliconflow translate end: {from_code} => {to_code}')
     return result, from_code, to_code
 
 

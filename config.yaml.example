@@ -20,3 +20,9 @@ translator:
     region: cn-beijing
   niutrans:
     secret: ""
+  bigmodel:
+    secret: ""
+    model: "glm-4-flash"
+  siliconflow:
+    secret: ""
+    model: "Qwen/Qwen2.5-7B-Instruct"
