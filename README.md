@@ -4,6 +4,11 @@
 
 # ChangeLog
 
+## 2025-07-21
+
+- update version to `0.0.13`
+- add **windows** support for `Window Capture Simple` Server
+
 ## 2025-03-24
 
 - update version to `0.0.12`
@@ -138,13 +143,49 @@ python camera_capture_simple.py -o ~/ai/sd/output_webcam
 
 <img src="./usage_camera_capture_simple_server_1.png" width="600" />
 
+### Window Capture Simple Server
+
+a simple windows capture server.
+
+mainly used with `Load Image Path` and `LCM` for **real-time virtual live** workflow
+
+#### feature
+
+- support filter for query (all, onscreen, above, below, include, exclude, ...)
+- support find window by relative window
+- support custom window UI (size, position, title)
+
+#### useage
+
+> the paths to `ComfyUI` and `python` need to be modified to suit for you.
+
+> in my case, `ComfyUI` in `./ComfyUI` and `python` in `./ComfyUI/venv` with **venv**
+
+basic
+
+```shell
+# enter ComfyUI's home
+cd ./ComfyUI
+
+# active virtual environment for python
+source ./venv/bin/activate
+
+# enter server's home
+cd ./custom_nodes/ComfyUI_zfkun/server
+
+# start server with custom output directory
+python window_capture_simple.py
+```
+
+<img src="./example_window_capture_simple_server_2.png" width="600" />
+
 advanced
 
 ```shell
-python camera_capture_simple.py -h
+python window_capture_simple.py -h
 ```
 
-<img src="./usage_camera_capture_simple_server_2.png" width="600" />
+<img src="./usage_window_capture_simple_server_2.png" width="600" />
 
 ## Nodes
 
@@ -223,3 +264,4 @@ support platforms:
 ## Window Capture Simple Server (WIP)
 
 ![](./example_window_capture_simple_server_1.png)
+![](./example_window_capture_simple_server_2.png)

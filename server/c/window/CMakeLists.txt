@@ -8,10 +8,23 @@ include_directories(include)
 
 file(GLOB SOURCES main.c "src/*.c")
 
-#add_library(libwindow SHARED ${SOURCES})
+add_library(libwindow SHARED ${SOURCES})
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build)
 
-target_link_libraries(${PROJECT_NAME}
-        "-framework ApplicationServices"
-)
+#file(COPY include/ DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
+#add_executable(${PROJECT_NAME} ${SOURCES})
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+            gdi32
+            user32
+    )
+elseif(APPLE)
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+            "-framework ApplicationServices"
+    )
+endif()

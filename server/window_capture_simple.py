@@ -3,29 +3,72 @@ import os
 import subprocess
 import threading
 import queue
+import sys
 import time
 from enum import IntFlag
 
-import tkinter as tk
+try:
+    import tkinter
+except ImportError:
+    raise RuntimeError("tkinter is required but not available. Please ensure your Python installation includes Tk support.")
+else:
+    import tkinter as tk
+
 from PIL import Image, ImageTk
 
 # 路径定义
 _C_HOME_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'c')
 _C_LIBWINDOW_HOME_PATH = os.path.join(_C_HOME_PATH, 'window')
 _C_LIBWINDOW_TMP_PATH = os.path.join(_C_LIBWINDOW_HOME_PATH, 'tmp')
-_LIBWINDOW_DLL_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "build/libwindow.dylib")
-_LIBWINDOW_CODE_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "src/window_osx.c")
+_C_ENCODE = 'utf-8'
+
+# 平台相关库文件
+if sys.platform == 'darwin':
+    _LIBWINDOW_DLL_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "build/libwindow.dylib")
+    _LIBWINDOW_CODE_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "src/window_osx.c")
+elif sys.platform == 'win32':
+    _C_ENCODE = 'gbk'
+    _LIBWINDOW_DLL_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "build/libwindow.dll")
+    _LIBWINDOW_CODE_FILE = os.path.join(_C_LIBWINDOW_HOME_PATH, "src/window_win.c")
+else:
+    raise RuntimeError("Unsupported platform")
 
 # 首次需编译自定义库 (MacOS)
 if not os.path.exists(_LIBWINDOW_DLL_FILE):
-    with open(_LIBWINDOW_CODE_FILE, 'r') as file:
-        # 读取C源码
-        c_code = file.read()
+    # 确保  _LIBWINDOW_DLL_FILE 所在目录存在
+    os.makedirs(os.path.dirname(_LIBWINDOW_DLL_FILE), exist_ok=True)
 
-        # 编译C代码到动态链接库
-        # `-Wno-deprecated-declarations`: 忽略警告 `warning: 'kUTTypePNG' is deprecated: first deprecated in macOS 12.0 - Use UTTypePNG instead`
-        gcc = subprocess.Popen(["gcc", "-Wno-deprecated-declarations", "-framework", "ApplicationServices", "-shared", "-o", _LIBWINDOW_DLL_FILE, "-x", "c", "-"], stdin=subprocess.PIPE)
-        gcc.communicate(c_code.encode("utf-8"))
+    if sys.platform == 'darwin':
+        with open(_LIBWINDOW_CODE_FILE, 'r', encoding='utf-8') as file:
+            # 读取C源码
+            c_code = file.read()
+
+            # 编译C代码到动态链接库
+            # `-Wno-deprecated-declarations`: 忽略警告 `warning: 'kUTTypePNG' is deprecated: first deprecated in macOS 12.0 - Use UTTypePNG instead`
+            gcc = subprocess.Popen(["gcc", "-Wno-deprecated-declarations", "-framework", "ApplicationServices", "-shared", "-o", _LIBWINDOW_DLL_FILE, "-x", "c", "-"], stdin=subprocess.PIPE)
+            gcc.communicate(c_code.encode("utf-8"))
+    elif sys.platform == 'win32':
+        # 检查是否安装了 mingw32-make 和 gcc
+        try:
+            subprocess.check_call(["gcc", "--version"])
+        except Exception:
+            raise RuntimeError("请先安装 MinGW-w64, 并将 gcc 添加到环境变量")
+
+        with open(_LIBWINDOW_CODE_FILE, "r", encoding='utf-8') as f:
+            c_code = f.read()
+
+            # -finput-charset=UTF-8
+            gcc = subprocess.Popen([
+                "gcc",
+                "-shared",
+                "-o", _LIBWINDOW_DLL_FILE,
+                "-lgdi32",
+                "-luser32",
+                "-Wl,--subsystem,windows",
+                "-mwindows",
+                "-x", "c", "-"
+            ], stdin=subprocess.PIPE)
+            gcc.communicate(c_code.encode("utf-8"))
 
 # 编译不成功的话, 就没必要继续了
 if not os.path.exists(_LIBWINDOW_DLL_FILE):
@@ -65,16 +108,16 @@ get_window_screenshots.restype = ctypes.c_int
 
 
 # CGWindowListOption 映射
-class CGWindowListOption(IntFlag):
-    kCGWindowListOptionAll = 0
-    kCGWindowListOptionOnScreenOnly = (1 << 0)
-    kCGWindowListOptionOnScreenAboveWindow = (1 << 1)
-    kCGWindowListOptionOnScreenBelowWindow = (1 << 2)
-    kCGWindowListOptionIncludingWindow = (1 << 3)
-    kCGWindowListExcludeDesktopElements = (1 << 4)
+class WindowListOption(IntFlag):
+    All = 0
+    OnScreenOnly = (1 << 0)
+    OnScreenAboveWindow = (1 << 1)
+    OnScreenBelowWindow = (1 << 2)
+    IncludingWindow = (1 << 3)
+    ExcludeDesktopElements = (1 << 4)
 
 # kCGNullWindowID 映射
-KCG_NULL_WINDOW_ID = 0
+NULL_WINDOW_ID = 0
 
 
 class ImageLoader(threading.Thread):
@@ -183,11 +226,11 @@ class Application(tk.Frame):
             col = i % self.col_num
 
             def onClick(e, i=i, w=w):
-                print(f'点击了窗口[{i}]: {e}, {w.name.decode("utf-8")}')
+                print(f'点击了窗口[{i}]: {e}, {w.name.decode(_C_ENCODE)}')
                 self.select_widget(i)
 
             img_path = os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_{i:02}.png")
-            cell = ResizableImage(self, img_path=img_path, title=w.name.decode("utf-8"), onClick=onClick)
+            cell = ResizableImage(self, img_path=img_path, title=w.name.decode(_C_ENCODE), onClick=onClick)
             cell.grid(row=row, column=col, sticky='nsew')
             self.cells.append(cell)
 
@@ -200,42 +243,87 @@ class Application(tk.Frame):
             w.set_select(i == index)
 
 
-def main():
+__version__ = '0.0.1'
+
+if __name__ == '__main__':
+    import argparse
+    def valid_option(option):
+        if isinstance(option, int):
+            option = int(option)
+            if option < 0:
+                raise argparse.ArgumentTypeError("source should be greater than 0")
+            return option
+    
+    def validate_geometry(geometry_str):
+      import re
+      pattern = r'^\d+x\d+(?:\+\d+\+\d+)?$'
+      
+      if not re.fullmatch(pattern, geometry_str):
+          raise argparse.ArgumentTypeError(
+              f'Invalid geometry format: {geometry_str}. '
+              'Expected format: "widthxheight" or "widthxheight+x+y"'
+          )
+      return geometry_str
+
+
+    parser = argparse.ArgumentParser(description='a simple windows capture server')
+    parser.add_argument('-o', '--option', 
+                      type=int,
+                      choices=[v for _, v in WindowListOption.__members__.items()],
+                      default=WindowListOption.OnScreenOnly,
+                      help='window list options (' + ', '.join(f'{v}:{k.replace("WindowListOption", "")}' for k, v in WindowListOption.__members__.items()) + '), can combine with +')
+    parser.add_argument('-r', '--relativeToWindow', type=int, default=NULL_WINDOW_ID, help='relative to window ID (default: 0)')
+    parser.add_argument('-l', '--layer', type=int, default=0, help='layer to query (default: 0)')
+    parser.add_argument('-c', '--count', type=int, default=100, help='max count windows to query (default: 100)')
+    parser.add_argument('-s', '--size', 
+                   type=validate_geometry,
+                   default='800x600', 
+                   help='geometry size of the window, format: "widthxheight" or "widthxheight+x+y" (default: 800x600)')
+    parser.add_argument('-t', '--title', type=str, default='Window Capture Picker', help='title of the window (default: Window Capture Picker)')
+    parser.add_argument('-d', '--debug', action='store_true', default=False, help='enable debug mode (default: False)')
+    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {__version__}', help='show version and exit')
+
+    args = parser.parse_args()
+
 #     output = subprocess.check_output(["./window"])
 #     for line in output.decode("utf-8").split("\n"):
 #         if line:
 #             print(line)
 
     # 窗口选项
-    option = CGWindowListOption.kCGWindowListOptionOnScreenOnly
+    option = args.option
     # 关联窗口ID
-    relativeToWindow = KCG_NULL_WINDOW_ID
+    relativeToWindow = args.relativeToWindow
     # 选择 0 层的就够用了
-    layer = 0
+    layer = args.layer
 
     # 查询窗口列表
-    windows = (WindowInfo * 100)()
+    windows = (WindowInfo * args.count)()
     total = get_window_list(windows, option, relativeToWindow, layer, len(windows))
     for i in range(total):
-        print(f"窗口[{i}]: ")
-        print(f'- layer: {windows[i].layer}')
-        print(f"- id: {windows[i].id}")
-        print(f'- name: {windows[i].name.decode("utf-8")}',)
-        print(f"- rect: {windows[i].rect[0]}, {windows[i].rect[1]}, {windows[i].rect[2]}, {windows[i].rect[3]}")
-        print(f"- pid: {windows[i].pid}")
-        print(f'- ownerName: {windows[i].ownerName.decode("utf-8")}',)
-        print(f"-----------------------------------")
+        if args.debug:
+          print(f"窗口[{i}]: ")
+          print(f'- layer: {windows[i].layer}')
+          print(f"- id: {windows[i].id}")
+          #if
+          print(f'- name: {windows[i].name.decode(_C_ENCODE)}',)
+          print(f"- rect: {windows[i].rect[0]}, {windows[i].rect[1]}, {windows[i].rect[2]}, {windows[i].rect[3]}")
+          print(f"- pid: {windows[i].pid}")
+          print(f'- ownerName: {windows[i].ownerName.decode(_C_ENCODE)}',)
+          print(f"-----------------------------------")
 
     
     if not os.path.exists(_C_LIBWINDOW_TMP_PATH):
-        os.path.mkdir(_C_LIBWINDOW_TMP_PATH)
+        os.makedirs(_C_LIBWINDOW_TMP_PATH)
 
     # 单窗口 独立截图
     for i in range(total):
         if (get_window_screenshot(windows[i].id, windows[i].rect, os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_{i:02}.png").encode("utf-8"))):
-            print(f"窗口[{i}]: 截图成功")
+            if args.debug:
+              print(f"窗口[{i}]: 截图成功")
         else:
-            print(f"窗口[{i}]: 截图失败")
+            if args.debug:
+              print(f"窗口[{i}]: 截图失败")
 
 
 
@@ -247,17 +335,16 @@ def main():
     # bounds = [0, 0, 512, 512] # 自定义区域
     c_bounds = (ctypes.c_float * 4)(*bounds)
     if (get_window_screenshots(c_ids, total, c_bounds, os.path.join(_C_LIBWINDOW_TMP_PATH, f"window_all.png").encode("utf-8"))):
-        print(f"多窗口合并: 截图成功 {bounds}")
+        if args.debug:
+          print(f"多窗口合并: 截图成功 {bounds}")
     else:
-        print(f"多窗口合并: 截图失败 {bounds}")
+        if args.debug:
+          print(f"多窗口合并: 截图失败 {bounds}")
 
     # 可视化交互展示窗口查询结果
     root = tk.Tk()
-    root.geometry("800x600")
-    root.title("分享窗口选择器")
+    root.geometry(args.size)
+    root.title(args.title)
 
     app = Application(master=root, windows=windows[:total], col_num=4)
     app.mainloop()
-
-if __name__ == "__main__":
-    main()

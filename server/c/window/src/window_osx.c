@@ -2,6 +2,8 @@
 // Created by zfkun on 2023/12/26.
 //
 
+#if !defined(WIN32) && !defined(_WIN32)
+
 #include <ApplicationServices/ApplicationServices.h>
 
 typedef struct
@@ -184,3 +186,4 @@ bool get_window_screenshots(long *ids, int count, float rect[4], const char *fil
     return ok;
 }
 
+#endif

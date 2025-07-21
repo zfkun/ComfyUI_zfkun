@@ -1,10 +1,30 @@
-#include <ApplicationServices/ApplicationServices.h>
-#include "include/window_osx.h"
+// gcc -finput-charset=UTF-8 main.c src/window_win.c -o libwindow.exe -lgdi32 -luser32
+// gcc -finput-charset=UTF-8 main.c src/window_osx.c -shared -o libwindow.dll -lgdi32 -luser32
 
+// gcc -Wno-deprecated-declarations -framework "ApplicationServices" main.c src/window_osx.c -o libwindow
+// gcc -Wno-deprecated-declarations -framework "ApplicationServices" main.c src/window_osx.c -shared -o libwindow.dylib
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#if defined(WIN32) || defined(_WIN32)
+    #include "include/window_win.h"
+#else
+    #include <ApplicationServices/ApplicationServices.h>
+    #include "include/window_osx.h"
+#endif
+
+#include "include/window.h"
 int main()
 {
     WindowInfo list[100];
+
+#if defined(WIN32) || defined(_WIN32)
+    int total = get_window_list(list, WINDOW_LIST_OPTION_ON_SCREEN_ONLY, NULL_WINDOW_ID, 0, 100);
+#else
     int total = get_window_list(list, kCGWindowListOptionOnScreenOnly, kCGNullWindowID, 0, 100);
+#endif
 
     int i;
     for (i = 0; i < total; i++)
@@ -22,7 +42,6 @@ int main()
                list[i].rect[3]);
     }
 
-
     // single window screenshot
     for (i = 0; i < total; i++) {
         char filename[256];
@@ -35,10 +54,17 @@ int main()
         }
     }
 
-    printf("CGRectNull: origin=(%f, %f), size=(%f, %f)\n", CGRectNull.origin.x, CGRectNull.origin.y, CGRectNull.size.width, CGRectNull.size.height);
+    #if defined(__APPLE__)
+        printf("CGRectNull: origin=(%f, %f), size=(%f, %f)\n", CGRectNull.origin.x, CGRectNull.origin.y, CGRectNull.size.width, CGRectNull.size.height);
+    #endif
 
     // multi window combine screenshot
-    long ids[total];
+    long *ids = (long *)malloc(total * sizeof(long));
+    if (ids == NULL) {
+        fprintf(stderr, "malloc fail\n");
+        return 1;
+    }
+
     for (i = 0; i < total; i++)
     {
         ids[i] = list[i].id;
@@ -63,6 +89,8 @@ int main()
     else {
         printf("Screenshot All 512 Fail: %d, %d, %s\n", res, total, filename512);
     }
+
+    free(ids);
 
     return 0;
 }
