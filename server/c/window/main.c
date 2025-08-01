@@ -1,8 +1,11 @@
 // gcc -finput-charset=UTF-8 main.c src/window_win.c -o libwindow.exe -lgdi32 -luser32
-// gcc -finput-charset=UTF-8 main.c src/window_osx.c -shared -o libwindow.dll -lgdi32 -luser32
+// gcc -finput-charset=UTF-8 src/window_osx.c -shared -o libwindow.dll -lgdi32 -luser32
 
 // gcc -Wno-deprecated-declarations -framework "ApplicationServices" main.c src/window_osx.c -o libwindow
-// gcc -Wno-deprecated-declarations -framework "ApplicationServices" main.c src/window_osx.c -shared -o libwindow.dylib
+// gcc -Wno-deprecated-declarations -framework "ApplicationServices" src/window_osx.c -shared -o libwindow.dylib
+
+// cmake -S . -B build
+// cmake --build build
 
 #include <stdio.h>
 #include <stdlib.h>

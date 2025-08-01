@@ -55,8 +55,9 @@ BOOL IsSystemWindow(HWND hwnd) {
         "SysShadow",                    // 阴影窗口
         NULL
     };
-    
-    for(int i = 0; systemClasses[i]; i++) {
+
+    int i;
+    for(i = 0; systemClasses[i]; i++) {
         if(strcmp(className, systemClasses[i]) == 0) {
             return TRUE;
         }
@@ -312,7 +313,8 @@ __declspec(dllexport) bool get_window_screenshot(long id, float rect[4], const c
         GetBitmapBits(hBitmap, width * height * 4, pixels);
         
         BOOL isBlack = TRUE;
-        for (int i = 0; i < width * height; i++) {
+        int i;
+        for (i = 0; i < width * height; i++) {
             if (pixels[i] != 0xFF000000) { // 非全黑像素
                 isBlack = FALSE;
                 break;
@@ -417,7 +419,8 @@ __declspec(dllexport) bool get_window_screenshots(long *ids, int count, float re
 
     // 4. 创建掩码区域(只保留目标窗口)
     HRGN hrgnTotal = CreateRectRgn(0, 0, 0, 0);
-    for(int i = 0; i < count; i++) {
+    int i;
+    for(i = 0; i < count; i++) {
         HWND hwnd = (HWND)(LONG_PTR)ids[i];
         if(!IsWindowVisible(hwnd)) continue;
 
