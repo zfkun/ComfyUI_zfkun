@@ -22,7 +22,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ZFShareScreen": "Share Screen 🍕🅩🅕",
 }
 
-WEB_DIRECTORY = "./js"
+WEB_DIRECTORY = "./web/js"
 
 __version__ = VERSION
 

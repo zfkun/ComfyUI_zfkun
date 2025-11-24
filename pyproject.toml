@@ -1,12 +1,20 @@
 [project]
-name = "comfyui_zfkun"
+name = "zfkun"
 description = "A collection of nodes for common tools, including text preview, text translation (multi-platform, multi-language), image loader, webcamera capture."
-version = "0.0.13"
+version = "0.0.14"
 license = { file = "LICENSE" }
 dependencies = ["chardet", "pyyaml", "torch", "numpy", "pillow"]
+classifiers = [
+    "Operating System :: OS Independent"
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
 Repository = "https://github.com/zfkun/ComfyUI_zfkun"
+"Bug Tracker" = "https://github.com/zfkun/ComfyUI_zfkun/issues"
 
 [tool.comfy]
 PublisherId = "zfkun"

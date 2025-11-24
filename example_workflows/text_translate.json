@@ -1,0 +1,1306 @@
+{
+  "id": "316ac96f-7a28-40cc-b6aa-d764be86fa51",
+  "revision": 0,
+  "last_node_id": 21,
+  "last_link_id": 17,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "ZFPreviewText",
+      "pos": [
+        1075.3125,
+        399.9097595214844
+      ],
+      "size": [
+        210,
+        479.2043151855469
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ZFPreviewText",
+      "pos": [
+        800.126953125,
+        1010
+      ],
+      "size": [
+        231.8450927734375,
+        200.8216552734375
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            6
+          ]
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "ZFTextTranslation",
+      "pos": [
+        1630.126953125,
+        1010
+      ],
+      "size": [
+        260.82659912109375,
+        220
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "",
+        "baidu",
+        "auto",
+        "fr"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "ZFPreviewText",
+      "pos": [
+        1930.126953125,
+        1010
+      ],
+      "size": [
+        262.8033752441406,
+        213.67723083496094
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ZFTextTranslation",
+      "pos": [
+        1080.126953125,
+        1010
+      ],
+      "size": [
+        248.54629516601562,
+        220
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            7
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "",
+        "baidu",
+        "auto",
+        "ko"
+      ]
+    },
+    {
+      "id": 13,
+      "type": "ZFPreviewText",
+      "pos": [
+        780.1776123046875,
+        1381.1634521484375
+      ],
+      "size": [
+        210,
+        191.4257049560547
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            11
+          ]
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 15,
+      "type": "ZFPreviewText",
+      "pos": [
+        1300.1776123046875,
+        1381.1634521484375
+      ],
+      "size": [
+        210,
+        177.83529663085938
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 9,
+      "type": "ZFPreviewText",
+      "pos": [
+        1360.126953125,
+        1010
+      ],
+      "size": [
+        225.00900268554688,
+        197.6621856689453
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            8
+          ]
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 1,
+      "type": "ZFTextTranslation",
+      "pos": [
+        515.3125,
+        399.9097595214844
+      ],
+      "size": [
+        250.868896484375,
+        220
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": [
+            2
+          ]
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": [
+            3
+          ]
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "slot_index": 3,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "一个红色的苹果",
+        "baidu",
+        "auto",
+        "en"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "ZFPreviewText",
+      "pos": [
+        840.3125,
+        735.9097290039062
+      ],
+      "size": [
+        210,
+        137
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 3,
+      "type": "ZFPreviewText",
+      "pos": [
+        845.3125,
+        554.9097900390625
+      ],
+      "size": [
+        210,
+        137
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ZFPreviewText",
+      "pos": [
+        596.3125,
+        737.9097290039062
+      ],
+      "size": [
+        211,
+        137
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ZFTextTranslation",
+      "pos": [
+        520.126953125,
+        1010
+      ],
+      "size": [
+        245.3038330078125,
+        220
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            5
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "一个红色的苹果",
+        "baidu",
+        "auto",
+        "en"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "ZFPreviewText",
+      "pos": [
+        787,
+        1756
+      ],
+      "size": [
+        210,
+        198
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 18,
+      "type": "ZFTextTranslation",
+      "pos": [
+        1050,
+        1757
+      ],
+      "size": [
+        247,
+        248
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            15
+          ]
+        },
+        {
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "",
+        "siliconflow",
+        "auto",
+        "ko"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "ZFTextTranslation",
+      "pos": [
+        531,
+        1755
+      ],
+      "size": [
+        224.3038330078125,
+        236
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            13
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "一个红色的苹果",
+        "bigmodel",
+        "auto",
+        "en"
+      ]
+    },
+    {
+      "id": 19,
+      "type": "ZFPreviewText",
+      "pos": [
+        1346,
+        1757
+      ],
+      "size": [
+        214,
+        188
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 20,
+      "type": "ZFTextTranslation",
+      "pos": [
+        1611,
+        1756
+      ],
+      "size": [
+        247,
+        248
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            17
+          ]
+        },
+        {
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "",
+        "bigmodel",
+        "auto",
+        "fr"
+      ]
+    },
+    {
+      "id": 21,
+      "type": "ZFPreviewText",
+      "pos": [
+        1899.962890625,
+        1755.648193359375
+      ],
+      "size": [
+        214,
+        188
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 12,
+      "type": "ZFTextTranslation",
+      "pos": [
+        519.8780517578125,
+        1370.67822265625
+      ],
+      "size": [
+        210,
+        220
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            10
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "빨간 사과",
+        "baidu",
+        "auto",
+        "zh"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "ZFTextTranslation",
+      "pos": [
+        1050.1776123046875,
+        1381.1634521484375
+      ],
+      "size": [
+        210,
+        220
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        },
+        {
+          "label": "platform",
+          "name": "platform",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "source",
+          "name": "source",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "target",
+          "name": "target",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "599ec566c655bd2ed35a6815b252a9d5748e30d8",
+        "Node name for S&R": "ZFTextTranslation"
+      },
+      "widgets_values": [
+        "",
+        "baidu",
+        "zh",
+        "zh-tw"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      1,
+      1,
+      3,
+      0,
+      "STRING"
+    ],
+    [
+      3,
+      1,
+      2,
+      4,
+      0,
+      "STRING"
+    ],
+    [
+      4,
+      1,
+      3,
+      5,
+      0,
+      "STRING"
+    ],
+    [
+      5,
+      6,
+      0,
+      7,
+      0,
+      "STRING"
+    ],
+    [
+      6,
+      7,
+      0,
+      8,
+      0,
+      "STRING"
+    ],
+    [
+      7,
+      8,
+      0,
+      9,
+      0,
+      "STRING"
+    ],
+    [
+      8,
+      9,
+      0,
+      10,
+      0,
+      "STRING"
+    ],
+    [
+      9,
+      10,
+      0,
+      11,
+      0,
+      "STRING"
+    ],
+    [
+      10,
+      12,
+      0,
+      13,
+      0,
+      "STRING"
+    ],
+    [
+      11,
+      13,
+      0,
+      14,
+      0,
+      "STRING"
+    ],
+    [
+      12,
+      14,
+      0,
+      15,
+      0,
+      "STRING"
+    ],
+    [
+      13,
+      16,
+      0,
+      17,
+      0,
+      "STRING"
+    ],
+    [
+      14,
+      17,
+      0,
+      18,
+      0,
+      "STRING"
+    ],
+    [
+      15,
+      18,
+      0,
+      19,
+      0,
+      "STRING"
+    ],
+    [
+      16,
+      19,
+      0,
+      20,
+      0,
+      "STRING"
+    ],
+    [
+      17,
+      20,
+      0,
+      21,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Basic",
+      "bounding": [
+        496,
+        313,
+        838,
+        578
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Auto Detect Source Language",
+      "bounding": [
+        500,
+        926,
+        1718,
+        317
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Custom Source Language",
+      "bounding": [
+        502,
+        1285,
+        1034,
+        319
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Use LLM Model",
+      "bounding": [
+        507,
+        1663,
+        1647.45458984375,
+        357.4545593261719
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1,
+      "offset": [
+        -415.3125,
+        -299.9097595214844
+      ]
+    },
+    "ue_links": [],
+    "frontendVersion": "1.28.9"
+  },
+  "version": 0.4
+}

@@ -1,0 +1,379 @@
+{
+  "id": "85a41b1d-583d-4df3-88da-5eec871ada62",
+  "revision": 0,
+  "last_node_id": 10,
+  "last_link_id": 7,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "ZFPreviewText",
+      "pos": [
+        424.1028518676758,
+        228.04767100490432
+      ],
+      "size": [
+        315,
+        108
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "73d5ce090fe7904ce80de9ca732793cd0d0c31ea",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        "1girl, 1boy&1dog"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ZFPreviewText",
+      "pos": [
+        743.6009809031929,
+        741.4125080308282
+      ],
+      "size": [
+        303.5569152832031,
+        108
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "73d5ce090fe7904ce80de9ca732793cd0d0c31ea",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        "test, test"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "ZFPreviewText",
+      "pos": [
+        412.6511213917537,
+        518.8075321417456
+      ],
+      "size": [
+        315,
+        108
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "73d5ce090fe7904ce80de9ca732793cd0d0c31ea",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        "hello, world !!"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "PrimitiveString",
+      "pos": [
+        135.83872743997088,
+        520.714762039237
+      ],
+      "size": [
+        247.68354328551857,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.71",
+        "Node name for S&R": "PrimitiveString"
+      },
+      "widgets_values": [
+        "hello, world !!"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ZFPreviewText",
+      "pos": [
+        393.60098090319343,
+        741.4125080308282
+      ],
+      "size": [
+        315,
+        108
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        },
+        {
+          "label": "unique_id",
+          "name": "unique_id",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "73d5ce090fe7904ce80de9ca732793cd0d0c31ea",
+        "Node name for S&R": "ZFPreviewText"
+      },
+      "widgets_values": [
+        "test, test"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "PrimitiveString",
+      "pos": [
+        132.1193179875573,
+        741.0897720947416
+      ],
+      "size": [
+        235.59546256517444,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.71",
+        "Node name for S&R": "PrimitiveString"
+      },
+      "widgets_values": [
+        "test, test"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "StringConcatenate",
+      "pos": [
+        137.37583417541128,
+        228.91109927230363
+      ],
+      "size": [
+        210,
+        166
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.71",
+        "Node name for S&R": "StringConcatenate"
+      },
+      "widgets_values": [
+        "1girl, 1boy",
+        "1dog",
+        "&"
+      ]
+    }
+  ],
+  "links": [
+    [
+      4,
+      6,
+      0,
+      7,
+      0,
+      "STRING"
+    ],
+    [
+      5,
+      8,
+      0,
+      2,
+      0,
+      "STRING"
+    ],
+    [
+      6,
+      9,
+      0,
+      3,
+      0,
+      "STRING"
+    ],
+    [
+      7,
+      10,
+      0,
+      6,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Example 1",
+      "bounding": [
+        121,
+        154,
+        631.7194094524134,
+        258.1239468872392
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Example 2",
+      "bounding": [
+        120.77259488070354,
+        445.7935940441866,
+        617,
+        186
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Example 3",
+      "bounding": [
+        120.6009809031932,
+        667.4125080308282,
+        948,
+        186
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.075439542533921,
+      "offset": [
+        192.39915673552738,
+        -57.64828521374588
+      ]
+    },
+    "frontendVersion": "1.28.9"
+  },
+  "version": 0.4
+}

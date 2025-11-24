@@ -14,11 +14,20 @@ class ZFLoadImagePath:
     def INPUT_TYPES(cls):
         return {
                 "required": {
-                    "image_path": ("STRING", {"default": './input/example.png'}),
-                    "RGBA": ([False, True], {"default": False}),
+                    "image_path": ("STRING", {
+                        "default": './input/example.png',
+                        "tooltip": "Network address or local path (supports relative paths) of the image to be loaded (default is \"./input/example.png\")"
+                    }),
+                    "RGBA": ([False, True], {
+                        "default": False,
+                        "tooltip": "Whether to export the image in RGBA format"
+                    }),
                 },
                 "optional": {
-                    "default_image": ("IMAGE",),
+                    "default_image": ("IMAGE", {
+                        "default": None,
+                        "tooltip": "Fallback image used when the specified loading address is invalid or reading fails"
+                    }),
                 },
                 "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "unique_id": "UNIQUE_ID"},
             }
@@ -38,6 +47,7 @@ class ZFLoadImagePath:
     RETURN_TYPES = ("IMAGE", "MASK", "STRING")
     RETURN_NAMES = ("image", "mask", "filename")
     FUNCTION = "doit"
+    DESCRIPTION = "Read and load images from specified addresses, supporting network addresses, local full paths, and local relative paths"
 
     def doit(self, image_path, default_image=None, RGBA=False, prompt=None, extra_pnginfo=None, unique_id=None):
         filename = ''

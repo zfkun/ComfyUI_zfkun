@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "specstrings.h": "c",
+    "window_osx.h": "c",
+    "stdio.h": "c"
+  },
+  "cmake.sourceDirectory": "D:/workspace/github/zfkun/ComfyUI_zfkun/server/c/window"
+}

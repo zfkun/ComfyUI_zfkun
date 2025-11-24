@@ -8,10 +8,22 @@ class ZFTextTranslation:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "text": ("STRING", {"multiline": True}),
-                "platform": ([*TRANSLATOR_PLATFORMS], {"default": "baidu"}),
-                "source": (["auto", *LANGUAGE_CODES], {"default": "auto"}),
-                "target": ([*LANGUAGE_CODES,], {"default": "en"}),
+                "text": ("STRING", {
+                    "multiline": True,
+                    "tooltip": "Original text content to be translated"
+                }),
+                "platform": ([*TRANSLATOR_PLATFORMS], {
+                    "default": "baidu",
+                    "tooltip": "Translation platform to be used"
+                }),
+                "source": (["auto", *LANGUAGE_CODES], {
+                    "default": "auto",
+                    "tooltip": "Source language of the text to be translated"
+                }),
+                "target": ([*LANGUAGE_CODES,], {
+                    "default": "en",
+                    "tooltip": "Target language into which the text is to be translated"
+                }),
             },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "unique_id": "UNIQUE_ID"},
         }
@@ -31,6 +43,7 @@ class ZFTextTranslation:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING")
     RETURN_NAMES = ("text", "platform", "source", "target")
     FUNCTION = "doit"
+    DESCRIPTION = "Multilingual text translation node, supporting numerous free platforms"
 
     def doit(self, text:str, platform="baidu", source="auto", target="en", prompt=None, extra_pnginfo=None, unique_id=None):
         (result, fromLanguage, toLanguage,) = text_translate(platform, text, source, target)

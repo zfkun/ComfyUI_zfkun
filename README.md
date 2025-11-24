@@ -4,6 +4,16 @@
 
 # ChangeLog
 
+## 2025-11-24
+
+- update version to `0.0.14`
+- update pyproject.toml
+- add tooltips for all nodes
+- support [i18n](https://docs.comfy.org/zh-CN/custom-nodes/i18n) (en, zh)
+- support [Template](https://docs.comfy.org/zh-CN/custom-nodes/workflow_templates), add all example workflows for Template
+- support [Node Docs](https://docs.comfy.org/zh-CN/custom-nodes/help_page) (en, zh)
+
+
 ## 2025-07-21
 
 - update version to `0.0.13`
@@ -228,7 +238,7 @@ support platforms:
 
 ### Share Screen
 
-- support window、tab、screen share
+- support window capture、camera capture、screen share
 - support multiple share node at the same time
 - support custom clip area
 - support custom refresh duration
@@ -239,27 +249,27 @@ support platforms:
 
 ## Preview Text
 
-![](./example_preview_text.png)
+![](./example_workflows/preview_text.jpg)
 
 ## Preview Text (Multiline)
 
-![](./example_preview_text_multiline.png)
+![](./example_workflows/preview_text_multiline.jpg)
 
 ## Text Translation
 
-![](./example_text_translate.png)
+![](./example_workflows/text_translate.jpg)
 
 ## Load Image Path
 
-![](./example_load_image_path.png)
+![](./example_workflows/load_image_path.jpg)
 
 ## Share Screen
 
-![](./example_share_screen.png)
+![](./example_workflows/share_screen.jpg)
 
 ## Camera Capture Simple Server
 
-![](./example_camera_capture_simple_server.png)
+![](./example_workflows/camera_capture_simple_server.jpg)
 
 ## Window Capture Simple Server (WIP)
 

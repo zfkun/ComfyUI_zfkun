@@ -1,0 +1,166 @@
+{
+  "ZFPreviewText": {
+    "display_name": "预览文本 🍕🅩🅕",
+    "description": "简单高效的文本内容预览节点",
+    "inputs": {
+      "text": {
+        "name": "文本",
+        "tooltip": "要预览的原始文本内容"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "文本",
+        "tooltip": "最终显示的预览文本"
+      }
+    }
+  },
+  "ZFPreviewTextMultiline": {
+    "display_name": "预览文本 (多行) 🍕🅩🅕",
+    "description": "简单高效的多行文本内容预览节点 (支持多行内容展示)",
+    "inputs": {
+      "text": {
+        "name": "文本",
+        "tooltip": "要预览的原始文本内容"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "文本",
+        "tooltip": "最终显示的预览文本"
+      }
+    }
+  },
+  "ZFTextTranslation": {
+    "display_name": "文本翻译 🍕🅩🅕",
+    "description": "多语言文本翻译节点, 支持众多免费平台",
+    "inputs": {
+      "text": {
+        "name": "文本",
+        "tooltip": "要翻译的原始文本内容"
+      }
+    },
+    "widgets": {
+      "platform": {
+        "name": "平台",
+        "tooltip": "要使用的翻译平台"
+      },
+      "source": {
+        "name": "源语言",
+        "tooltip": "待翻译文本的源语言"
+      },
+      "target": {
+        "name": "目标语言",
+        "tooltip": "要翻译成的目标语言"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "文本",
+        "tooltip": "最终经过翻译后的文本内容"
+      },
+      "1": {
+        "name": "平台",
+        "tooltip": "本次翻译任务的翻译平台"
+      },
+      "2": {
+        "name": "源语言",
+        "tooltip": "本次翻译任务的源语言"
+      },
+      "3": {
+        "name": "目标语言",
+        "tooltip": "本次翻译任务的目标语言"
+      }
+    }
+  },
+  "ZFLoadImagePath": {
+    "display_name": "加载图像 (路径) 🍕🅩🅕",
+    "description": "从指定地址读取加载图像, 支持 网络地址、本机完整路径、本机相对路径",
+    "inputs": {
+      "default_image": {
+        "name": "默认图像",
+        "tooltip": "当指定的加载地址无效或读取失败时, 使用的兜底图像"
+      }
+    },
+    "widgets": {
+      "image_path": {
+        "name": "图像路径",
+        "tooltip": "要加载图像的网络地址 或 本地路径 (支持相对路径), 默认为 \"./input/example.png\""
+      },
+      "RGBA": {
+        "name": "RGBA",
+        "tooltip": "是否使用 RGBA 格式导出图像"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "图像",
+        "tooltip": "最终加载导出的图像"
+      },
+      "1": {
+        "name": "遮罩",
+        "tooltip": "从源图的Alpha通道中提取的遮罩信息"
+      },
+      "2": {
+        "name": "图像文件名",
+        "tooltip": "最终加载导出的图像的文件名"
+      }
+    }
+  },
+  "ZFShareScreen": {
+    "display_name": "分享屏幕 🍕🅩🅕",
+    "description": "读取共享屏幕的实时图像, 支持区域裁剪及提示词调整",
+    "inputs": {
+      "default_image": {
+        "name": "默认图像",
+        "tooltip": "当从共享屏幕读取失败时, 使用的兜底图像"
+      }
+    },
+    "widgets": {
+      "RGBA": {
+        "name": "RGBA",
+        "tooltip": "是否使用 RGBA 格式导出图像"
+      },
+      "prompt": {
+        "name": "提示词",
+        "tooltip": "对读取到的图像做进一步调整的提示词"
+      },
+      "weight": {
+        "name": "权重",
+        "tooltip": "对读取到的图像做进一步调整的权重"
+      },
+      "seed": {
+        "name": "随机种",
+        "tooltip": "对读取到的图像做进一步调整的随机种子"
+      },
+      "control_after_generate": {
+        "name": "运行后操作",
+        "tooltip": "生成图像后是否进行控制",
+        "options": {
+          "fixed": "固定",
+          "increment": "增加",
+          "decrement": "减少",
+          "randomize": "随机"
+        }
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "图像",
+        "tooltip": "从共享屏幕读取到的实时图像"
+      },
+      "1": {
+        "name": "提示词",
+        "tooltip": "设定的调整提示词"
+      },
+      "2": {
+        "name": "权重",
+        "tooltip": "设定的调整权重"
+      },
+      "3": {
+        "name": "随机种",
+        "tooltip": "设定的调整随机种子"
+      }
+    }
+  }
+}

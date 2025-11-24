@@ -1,0 +1,166 @@
+{
+  "ZFPreviewText": {
+    "display_name": "Preview Text 🍕🅩🅕",
+    "description": "Simple and efficient text content preview",
+    "inputs": {
+      "text": {
+        "name": "Text",
+        "tooltip": "Original text content to be previewed"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Text",
+        "tooltip": "Final displayed preview text"
+      }
+    }
+  },
+  "ZFPreviewTextMultiline": {
+    "display_name": "Preview Text (Multiline) 🍕🅩🅕",
+    "description": "Simple and efficient multiline text content preview node (supports multiline content display)",
+    "inputs": {
+      "text": {
+        "name": "Text",
+        "tooltip": "Original text content to be previewed"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Text",
+        "tooltip": "Final displayed preview text"
+      }
+    }
+  },
+  "ZFTextTranslation": {
+    "display_name": "Text Translation 🍕🅩🅕",
+    "description": "Multilingual text translation node, supporting numerous free platforms",
+    "inputs": {
+      "text": {
+        "name": "Text",
+        "tooltip": "Original text content to be translated"
+      }
+    },
+    "widgets": {
+      "platform": {
+        "name": "Platform",
+        "tooltip": "Translation platform to be used"
+      },
+      "source": {
+        "name": "Source Language",
+        "tooltip": "Source language of the text to be translated"
+      },
+      "target": {
+        "name": "Target Language",
+        "tooltip": "Target language into which the text is to be translated"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Text",
+        "tooltip": "Final translated text content"
+      },
+      "1": {
+        "name": "Platform",
+        "tooltip": "Translation platform used for this translation task"
+      },
+      "2": {
+        "name": "Source Language",
+        "tooltip": "Source language of this translation task"
+      },
+      "3": {
+        "name": "Target Language",
+        "tooltip": "Target language of this translation task"
+      }
+    }
+  },
+  "ZFLoadImagePath": {
+    "display_name": "Load Image Path 🍕🅩🅕",
+    "description": "Read and load images from specified addresses, supporting network addresses, local full paths, and local relative paths",
+    "inputs": {
+      "default_image": {
+        "name": "Default Image",
+        "tooltip": "Fallback image used when the specified loading address is invalid or reading fails"
+      }
+    },
+    "widgets": {
+      "image_path": {
+        "name": "Image Path",
+        "tooltip": "Network address or local path (supports relative paths) of the image to be loaded. default: \"./input/example.png\""
+      },
+      "RGBA": {
+        "name": "RGBA",
+        "tooltip": "Whether to export the image in RGBA format"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Image",
+        "tooltip": "Finally loaded and exported image"
+      },
+      "1": {
+        "name": "Mask",
+        "tooltip": "Mask information extracted from the Alpha channel of the source image"
+      },
+      "2": {
+        "name": "Image Filename",
+        "tooltip": "Filename of the finally loaded and exported image"
+      }
+    }
+  },
+  "ZFShareScreen": {
+    "display_name": "Share Screen 🍕🅩🅕",
+    "description": "Reads real-time images from the shared screen, supporting area cropping and prompt adjustment.",
+    "inputs": {
+      "default_image": {
+        "name": "Default Image",
+        "tooltip": "Fallback image used when the shared screen reading fails"
+      }
+    },
+    "widgets": {
+      "RGBA": {
+        "name": "RGBA",
+        "tooltip": "Whether to export the image in RGBA format"
+      },
+      "prompt": {
+        "name": "Prompt",
+        "tooltip": "Prompt for further adjustments to the read image"
+      },
+      "weight": {
+        "name": "Weight",
+        "tooltip": "Weight for further adjustments to the read image"
+      },
+      "seed": {
+        "name": "Seed",
+        "tooltip": "Random seed for further adjustments to the read image"
+      },
+      "control_after_generate": {
+        "name": "Control After Generate",
+        "tooltip": "Whether to apply control after generating the image",
+        "options": {
+          "fixed": "Fixed",
+          "increment": "Increment",
+          "decrement": "Decrement",
+          "randomize": "Randomize"
+        }
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Image",
+        "tooltip": "Real-time image read from the shared screen"
+      },
+      "1": {
+        "name": "Prompt",
+        "tooltip": "Configured adjustment prompt"
+      },
+      "2": {
+        "name": "Weight",
+        "tooltip": "Configured adjustment weight"
+      },
+      "3": {
+        "name": "Seed",
+        "tooltip": "Configured adjustment random seed"
+      }
+    }
+  }
+}
