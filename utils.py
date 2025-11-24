@@ -21,7 +21,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.14"
+VERSION = "0.0.15"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
