@@ -1,0 +1,362 @@
+{
+  "id": "d7a03e77-2988-4778-a2a4-1d2fa5ac46f9",
+  "revision": 0,
+  "last_node_id": 35,
+  "last_link_id": 31,
+  "nodes": [
+    {
+      "id": 35,
+      "type": "ZFPreviewTextList",
+      "pos": [
+        723.8152004724953,
+        725.6891907256746
+      ],
+      "size": [
+        226.78934087689765,
+        154.66052859190233
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "texts",
+          "type": "STRING",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFPreviewTextList"
+      },
+      "widgets_values": [
+        "1girl ",
+        " 1boy&\n\n1duck\n1dog"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "ZFPreviewTextList",
+      "pos": [
+        483.4603407154141,
+        74.58780770599004
+      ],
+      "size": [
+        232.61421424235198,
+        250
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "texts",
+          "type": "STRING",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFPreviewTextList"
+      },
+      "widgets_values": [
+        "hell",
+        " w",
+        "rld!"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "ZFSplitText",
+      "pos": [
+        186.3879483064173,
+        74.58780770599004
+      ],
+      "size": [
+        264.41525343742865,
+        112
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            28
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFSplitText"
+      },
+      "widgets_values": [
+        "hello world!",
+        "o"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "ZFSplitText",
+      "pos": [
+        184.75358368984655,
+        445.66575050583526
+      ],
+      "size": [
+        264.41525343742865,
+        112
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFSplitText"
+      },
+      "widgets_values": [
+        "hi, cat and dog!",
+        "&"
+      ]
+    },
+    {
+      "id": 33,
+      "type": "ZFPreviewTextList",
+      "pos": [
+        481.82597609884203,
+        445.66575050583526
+      ],
+      "size": [
+        233.81345287641614,
+        116.30202927005439
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "texts",
+          "type": "STRING",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFPreviewTextList"
+      },
+      "widgets_values": [
+        "hi, cat and dog!"
+      ]
+    },
+    {
+      "id": 34,
+      "type": "ZFSplitText",
+      "pos": [
+        426.7428080634995,
+        725.6891907256746
+      ],
+      "size": [
+        264.41525343742865,
+        112
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 31
+        }
+      ],
+      "outputs": [
+        {
+          "name": "texts",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_zfkun",
+        "ver": "f76e2894c1291487b8d8dfaca5f3cde08f022cbd",
+        "Node name for S&R": "ZFSplitText"
+      },
+      "widgets_values": [
+        "",
+        "and"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "StringConcatenate",
+      "pos": [
+        185.45104084999596,
+        725.6891907256746
+      ],
+      "size": [
+        210.8565990243315,
+        202.83375804625518
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.71",
+        "Node name for S&R": "StringConcatenate"
+      },
+      "widgets_values": [
+        "1girl and 1boy",
+        "\n\n1duck\n1dog",
+        "&"
+      ]
+    }
+  ],
+  "links": [
+    [
+      28,
+      30,
+      0,
+      31,
+      0,
+      "STRING"
+    ],
+    [
+      29,
+      32,
+      0,
+      33,
+      0,
+      "STRING"
+    ],
+    [
+      30,
+      34,
+      0,
+      35,
+      0,
+      "STRING"
+    ],
+    [
+      31,
+      11,
+      0,
+      34,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Example 1",
+      "bounding": [
+        167.67235831453547,
+        -6.651364961348305,
+        567.5430537344837,
+        349.1719013960309
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Example 2",
+      "bounding": [
+        167.14593927776457,
+        366.3648481944113,
+        572.1010050356988,
+        242.9131248660754
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Example 3",
+      "bounding": [
+        166.99809658516025,
+        636.4834985425164,
+        800.4213182462042,
+        310.4156080016852
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8770904233610338,
+      "offset": [
+        71.89547638621667,
+        165.58610340400966
+      ]
+    },
+    "frontendVersion": "1.37.11",
+    "workflowRendererVersion": "LG"
+  },
+  "version": 0.4
+}

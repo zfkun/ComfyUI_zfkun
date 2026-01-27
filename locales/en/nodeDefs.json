@@ -15,6 +15,22 @@
       }
     }
   },
+  "ZFPreviewTextList": {
+    "display_name": "Preview Text List 🍕🅩🅕",
+    "description": "Simple and efficient text content preview (support list input)",
+    "inputs": {
+      "texts": {
+        "name": "Texts",
+        "tooltip": "Original texts content to be previewed"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Texts",
+        "tooltip": "Final displayed preview texts"
+      }
+    }
+  },
   "ZFPreviewTextMultiline": {
     "display_name": "Preview Text (Multiline) 🍕🅩🅕",
     "description": "Simple and efficient multiline text content preview node (supports multiline content display)",
@@ -160,6 +176,26 @@
       "3": {
         "name": "Seed",
         "tooltip": "Configured adjustment random seed"
+      }
+    }
+  },
+  "ZFSplitText": {
+    "display_name": "Split Text 🍕🅩🅕",
+    "description": "Split text to list",
+    "inputs": {
+      "text": {
+        "name": "Text",
+        "tooltip": "Original text content to be split"
+      },
+      "delimiter": {
+        "name": "delimiter",
+        "tooltip": "Separator"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "Texts",
+        "tooltip": "List of segmented texts"
       }
     }
   }

@@ -1,6 +1,8 @@
 from .utils import VERSION, printColor, load_config
 from .nodes.preview_text import ZFPreviewText
 from .nodes.preview_text_multiline import ZFPreviewTextMultiline
+from .nodes.preview_text_list import ZFPreviewTextList
+from .nodes.split_text import ZFSplitText
 from .nodes.text_translation import ZFTextTranslation
 from .nodes.load_image_path import ZFLoadImagePath
 from .nodes.share_screen import ZFShareScreen
@@ -9,6 +11,8 @@ from .nodes.share_screen import ZFShareScreen
 NODE_CLASS_MAPPINGS = {
     "ZFPreviewText": ZFPreviewText,
     "ZFPreviewTextMultiline": ZFPreviewTextMultiline,
+    "ZFPreviewTextList": ZFPreviewTextList,
+    "ZFSplitText": ZFSplitText,
     "ZFTextTranslation": ZFTextTranslation,
     "ZFLoadImagePath": ZFLoadImagePath,
     "ZFShareScreen": ZFShareScreen,
@@ -17,6 +21,8 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ZFPreviewText": "Preview Text 🍕🅩🅕",
     "ZFPreviewTextMultiline": "Preview Text (Multiline) 🍕🅩🅕",
+    "ZFPreviewTextList": "Preview Text List 🍕🅩🅕",
+    "ZFSplitText": "Split Text 🍕🅩🅕",
     "ZFTextTranslation": "Text Translation 🍕🅩🅕",
     "ZFLoadImagePath": "Load Image Path 🍕🅩🅕",
     "ZFShareScreen": "Share Screen 🍕🅩🅕",

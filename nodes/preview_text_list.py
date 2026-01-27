@@ -1,4 +1,4 @@
-class ZFPreviewText:
+class ZFPreviewTextList:
     def __init__(self):
         pass
     
@@ -6,9 +6,10 @@ class ZFPreviewText:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "text": ("STRING", {
+                "texts": ("STRING", {
                     "forceInput": True,
-                    "tooltip": "Original text content to be previewed"
+                    "multiline": True,
+                    "tooltip": "Original texts content to be previewed"
                 }),
             },
             "hidden": {"unique_id": "UNIQUE_ID",},
@@ -24,13 +25,15 @@ class ZFPreviewText:
     # Unicode: U+1F165
     # UTF-16: \uD83C\uDD65
     CATEGORY = "zfkun 🍕🅩🅕"
+    INPUT_IS_LIST = True
+    OUTPUT_IS_LIST = (True, )
     OUTPUT_NODE = True
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("text",)
+    RETURN_NAMES = ("texts",)
     FUNCTION = "doit"
-    DESCRIPTION = "Simple and efficient text content preview"
+    DESCRIPTION = "Simple and efficient text content preview (support list input)"
 
-    def doit(self, text, **kwargs):
-        return {"ui": {"string": [text,]}, "result": (text,)}
+    def doit(self, texts, **kwargs):
+        return {"ui": {"string": [texts,]}, "result": (texts,)}
 

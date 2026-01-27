@@ -12,7 +12,7 @@ class ZFPreviewTextMultiline:
                     "tooltip": "Original text content to be previewed"
                 })
             },
-            "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "unique_id": "UNIQUE_ID"},
+            "hidden": {"unique_id": "UNIQUE_ID"},
         }
 
     # 🍕
@@ -27,11 +27,11 @@ class ZFPreviewTextMultiline:
     CATEGORY = "zfkun 🍕🅩🅕"
     OUTPUT_NODE = True
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("text", "unique_id")
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text",)
     FUNCTION = "doit"
     DESCRIPTION = "Simple and efficient multiline text content preview node (supports multiline content display)"
 
-    def doit(self, text, prompt=None, extra_pnginfo=None, unique_id=None):
-        return {"ui": {"string": [text, unique_id,]}, "result": (text, unique_id,)}
+    def doit(self, text, **kwargs):
+        return {"ui": {"string": [text,]}, "result": (text,)}
 

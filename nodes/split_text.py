@@ -1,4 +1,4 @@
-class ZFPreviewText:
+class ZFSplitText:
     def __init__(self):
         pass
     
@@ -7,9 +7,10 @@ class ZFPreviewText:
         return {
             "required": {
                 "text": ("STRING", {
-                    "forceInput": True,
-                    "tooltip": "Original text content to be previewed"
+                    "multiline": True,
+                    "tooltip": "Original texts content to be split"
                 }),
+                "delimiter": ("STRING", {"default": "&", "tooltip": "Separator"})
             },
             "hidden": {"unique_id": "UNIQUE_ID",},
         }
@@ -24,13 +25,15 @@ class ZFPreviewText:
     # Unicode: U+1F165
     # UTF-16: \uD83C\uDD65
     CATEGORY = "zfkun 🍕🅩🅕"
+    OUTPUT_IS_LIST = (True, )
     OUTPUT_NODE = True
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("text",)
+    RETURN_NAMES = ("texts",)
     FUNCTION = "doit"
-    DESCRIPTION = "Simple and efficient text content preview"
+    DESCRIPTION = "Split text to list"
 
-    def doit(self, text, **kwargs):
-        return {"ui": {"string": [text,]}, "result": (text,)}
+    def doit(self, text, delimiter, **kwargs):
+        texts = text.split(delimiter)
+        return {"ui": {"string": [texts,]}, "result": (texts,)}
 

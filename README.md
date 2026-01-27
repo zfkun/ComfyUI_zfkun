@@ -4,9 +4,16 @@
 
 # ChangeLog
 
+## 2026-01-01
+
+- update version to `0.0.16`
+- add `Split Text` node
+- add `Preview Text List` node
+- remove `unique_id` attribute of outputs for `Preview Text` and `Preview Text (Multiline)` node
+
 ## 2025-11-24
 
-- update version to `0.0.14`
+- update version to `0.0.15`
 - update pyproject.toml
 - add tooltips for all nodes
 - support [i18n](https://docs.comfy.org/zh-CN/custom-nodes/i18n) (en, zh)
@@ -207,6 +214,10 @@ support text、primitive (text) for input
 
 support text、primitive (clip text) for input
 
+### Preview Text (List)
+
+support text list、primitive list (clip text) for input
+
 ### Text Translation
 
 support platforms:
@@ -247,6 +258,10 @@ support platforms:
 
 # Examples
 
+## Split Text
+
+![](./example_workflows/split_text.jpg)
+
 ## Preview Text
 
 ![](./example_workflows/preview_text.jpg)
@@ -254,6 +269,10 @@ support platforms:
 ## Preview Text (Multiline)
 
 ![](./example_workflows/preview_text_multiline.jpg)
+
+## Preview Text (List)
+
+![](./example_workflows/preview_text_list.jpg)
 
 ## Text Translation
 
