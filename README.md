@@ -4,6 +4,11 @@
 
 # ChangeLog
 
+## 2026-09-27
+
+- update version to `0.0.17`
+- remove `auto install logic` for [Security Standards](https://docs.comfy.org/registry/standards#subprocess-for-pip-install)
+
 ## 2026-01-01
 
 - update version to `0.0.16`

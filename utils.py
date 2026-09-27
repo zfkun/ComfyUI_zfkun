@@ -8,10 +8,8 @@ import io
 import json
 import urllib
 import os
-import re
 import sys
 import time
-import traceback
 import uuid
 
 import __main__
@@ -21,7 +19,7 @@ from datetime import datetime
 from functools import reduce
 
 
-VERSION = "0.0.16"
+VERSION = "0.0.17"
 ADDON_NAME = "zfkun"
 
 HOME_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -42,74 +40,6 @@ def printColorWarn(text):
 
 def printColorError(text):
     printColor(text, '\033[91m')
-
-############ Check Start ############
-
-printColor(f"check start", "\033[1;35m")
-
-try:
-    import subprocess
-
-    def get_installed_packages():
-        global _piplist
-
-        if _piplist is None:
-            try:
-                result = subprocess.check_output([sys.executable, '-m', 'pip', 'list'], universal_newlines=True)
-                _piplist = set([line.split()[0].lower() for line in result.split('\n') if line.strip()])
-            except subprocess.CalledProcessError as e:
-                printColorError(f"failed to get installed packages from pip")
-
-        return _piplist
-
-
-    def is_installed(name):
-        name = name.strip()
-
-        match = re.search(r'([^<>!=]+)([<>!=]=?)', name)
-        if match:
-            name = match.group(1)
-
-        return (name.lower() in get_installed_packages(), name)
-
-
-    def is_requirements_installed(file_path):
-        if os.path.exists(file_path):
-            with open(file_path, 'r') as f:
-                for p in f.readlines():
-                    if not is_installed(p):
-                        return False
-                        
-        return True
-
-
-    def install():
-        req_file = os.path.join(HOME_PATH, "requirements.txt")
-
-        if os.path.exists(req_file):
-            with open(req_file, 'r') as f:
-                for line in f.readlines():
-                    ok, dependency = is_installed(line)
-                    if not ok:
-                        printColorWarn(f'"{dependency}" is not installed. Trying to install.')
-                        try:
-                            subprocess.check_call([sys.executable, '-m', 'pip', 'install', dependency])
-                            printColor(f'"{dependency}" is installed')
-                        except subprocess.CalledProcessError as e:
-                            printColorError(f'"{dependency}" install fail: {e}')
-                
-                printColor('all dependency installed')
-
-    install()
-
-except Exception as e:
-    printColorError("Dependency install failed. Please install manually.", )
-    traceback.print_exc()
-
-printColor(f"check end", "\033[1;35m")
-
-
-############ Check End ############
 
 
 ############ Setup Start ############
